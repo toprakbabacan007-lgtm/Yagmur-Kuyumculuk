@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yağmur Kuyumculuk - Anlık Fiyat & Sarrafiye Vitrini</title>
+    <title>Yağmur Kuyumculuk - Anlık Fiyat & Özel Vitrin</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -33,29 +33,41 @@
         }
         header h1 {
             font-family: 'Cinzel', serif;
-            font-size: 2.8em;
+            font-size: 2.5em;
             color: var(--gold-primary);
             margin: 0;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
         }
         header p {
-            font-size: 0.95em;
+            font-size: 0.9em;
             color: var(--text-muted);
-            margin-top: 10px;
+            margin-top: 8px;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
 
         .container {
             max-width: 1250px;
-            margin: 40px auto;
+            margin: 30px auto;
             padding: 0 20px;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6em;
+            color: var(--gold-primary);
+            border-bottom: 1px solid #3c4043;
+            padding-bottom: 10px;
+            margin: 40px 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .gold-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            gap: 22px;
         }
 
         .gold-card {
@@ -68,11 +80,12 @@
             flex-direction: column;
             justify-content: space-between;
             box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            position: relative;
         }
         .gold-card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-5px);
             border-color: var(--gold-primary);
-            box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
         }
 
         .card-image-box {
@@ -86,24 +99,32 @@
             border-bottom: 1px solid #3a3d40;
         }
         .card-image-box img {
-            width: 80%;
-            height: 80%;
+            width: 85%;
+            height: 85%;
             object-fit: contain;
         }
 
         .card-title {
-            font-size: 1.15em;
+            font-size: 1.1em;
             font-weight: 700;
             color: #fff;
-            padding: 15px 15px 5px;
+            padding: 12px 15px 4px;
             text-align: center;
+        }
+
+        .card-gram {
+            font-size: 0.85em;
+            color: var(--gold-primary);
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 5px;
         }
 
         .price-container {
             display: flex;
             justify-content: space-around;
-            padding: 15px;
-            margin: 10px 15px;
+            padding: 12px;
+            margin: 8px 12px;
             background-color: #1e2022;
             border-radius: 8px;
             border: 1px solid #35383b;
@@ -113,26 +134,26 @@
             flex: 1;
         }
         .price-label {
-            font-size: 0.75em;
+            font-size: 0.7em;
             color: var(--text-muted);
             text-transform: uppercase;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             display: block;
         }
         .price-val {
-            font-size: 1.25em;
+            font-size: 1.2em;
             font-weight: 700;
         }
         .buy-val { color: var(--buy-color); }
         .sell-val { color: var(--sell-color); }
 
         .card-action {
-            padding: 0 15px 18px;
+            padding: 0 12px 15px;
         }
         .btn-order {
             display: block;
             width: 100%;
-            padding: 12px 0;
+            padding: 11px 0;
             background: linear-gradient(135deg, var(--gold-primary), #b89728);
             color: #111;
             text-align: center;
@@ -144,12 +165,59 @@
             text-decoration: none;
         }
 
-        .loading-text {
-            grid-column: 1 / -1;
-            text-align: center;
-            font-size: 1.2em;
+        /* Yönetim Form Alanı */
+        .admin-panel {
+            background-color: #1d1f21;
+            border: 1px solid var(--gold-primary);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 50px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-size: 0.8em;
             color: var(--text-muted);
-            padding: 50px 0;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            padding: 10px;
+            background-color: #2e3134;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 6px;
+        }
+        .btn-add {
+            grid-column: 1 / -1;
+            padding: 12px;
+            background-color: var(--gold-primary);
+            color: #111;
+            font-weight: 700;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -161,109 +229,215 @@
     </header>
 
     <div class="container">
-        <div class="gold-grid" id="vitrin">
-            <div class="loading-text">Anlık piyasa verileri ve vitrin yükleniyor...</div>
+        
+        <!-- Canlı Borsa & Sarrafiye Vitrini -->
+        <div class="section-title"> CANLI SARRAFİYE VE ALTIN FİYATLARI</div>
+        <div class="gold-grid" id="canliVitrin">
+            <div style="grid-column: 1/-1; text-align:center; padding: 40px; color: #aaa;">Canlı borsa verileri yükleniyor...</div>
         </div>
+
+        <!-- Özel Eklenen Ürünler Vitrini -->
+        <div class="section-title"> ÖZEL COLECTION & MAĞAZA ÜRÜNLERİ</div>
+        <div class="gold-grid" id="ozelVitrin"></div>
+
+        <!-- Ürün Ekleme Paneli -->
+        <div class="admin-panel">
+            <h3 style="color: var(--gold-primary); margin-top: 0;"> Vitrine Yeni Ürün / Takı Ekle</h3>
+            <form id="urunForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Ürün Adı / Başlığı</label>
+                        <input type="text" id="pName" placeholder="Örn: 22 Ayar Ajda Bilezik" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Gramaj (Ağırlık)</label>
+                        <input type="text" id="pGram" placeholder="Örn: 15.40 Gram">
+                    </div>
+                    <div class="form-group">
+                        <label>Satış Fiyatı (TL)</label>
+                        <input type="number" id="pPrice" placeholder="Örn: 48500" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ürün Fotoğrafı</label>
+                        <input type="file" id="pImage" accept="image/*">
+                    </div>
+                    <button type="submit" class="btn-add">+ ÜRÜNÜ VİTRİNE EKLE</button>
+                </div>
+            </form>
+        </div>
+
     </div>
 
     <script>
-        const ORJINAL_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT26N61HNMzXTIhVOYRbQ28_0Y4JPnPoUTpCe3ZrY3RIrFR2hfkARzgVEv4tGKnrYd_623lYSQ9ycyJ/pub?output=csv";
+        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT26N61HNMzXTIhVOYRbQ28_0Y4JPnPoUTpCe3ZrY3RIrFR2hfkARzgVEv4tGKnrYd_623lYSQ9ycyJ/pub?output=csv";
+        const TEL_NO = "905428102260";
 
-        async function urunleriYukle() {
-            const vitrin = document.getElementById("vitrin");
-            
-            const proxyListesi = [
-                "https://api.allorigins.win/raw?url=" + encodeURIComponent(ORJINAL_CSV_URL),
-                "https://corsproxy.io/?" + encodeURIComponent(ORJINAL_CSV_URL),
-                ORJINAL_CSV_URL
+        // Görsel Grupları
+        const GORSELLER = {
+            gram: "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=400&q=80",
+            ceyrek: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=400&q=80",
+            yarim: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=400&q=80",
+            tam: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=400&q=80",
+            ata: "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=400&q=80"
+        };
+
+        // Ürün grubuna göre indirimler
+        function indirimHesapla(isim, satisFiyat) {
+            let ad = isim.toLowerCase();
+            if (ad.includes("gram")) return satisFiyat - 50;
+            if (ad.includes("çeyrek") || ad.includes("ceyrek")) return satisFiyat - 60;
+            if (ad.includes("yarım") || ad.includes("yarim")) return satisFiyat - 80;
+            if (ad.includes("tam") || ad.includes("ziynet")) return satisFiyat - 100;
+            if (ad.includes("ata") || ad.includes("cumhuriyet")) return satisFiyat - 150;
+            return satisFiyat;
+        }
+
+        // Kategoriye uygun fotoğraf seçimi
+        function gorselSec(isim) {
+            let ad = isim.toLowerCase();
+            if (ad.includes("çeyrek") || ad.includes("ceyrek")) return GORSELLER.ceyrek;
+            if (ad.includes("yarım") || ad.includes("yarim")) return GORSELLER.yarim;
+            if (ad.includes("tam") || ad.includes("ziynet")) return GORSELLER.tam;
+            if (ad.includes("ata") || ad.includes("cumhuriyet")) return GORSELLER.ata;
+            return GORSELLER.gram;
+        }
+
+        async function canliVeriYukle() {
+            const vitrin = document.getElementById("canliVitrin");
+            const proxyList = [
+                "https://api.allorigins.win/raw?url=" + encodeURIComponent(CSV_URL),
+                "https://corsproxy.io/?" + encodeURIComponent(CSV_URL),
+                CSV_URL
             ];
 
             let veri = null;
-
-            for (let url of proxyListesi) {
+            for (let url of proxyList) {
                 try {
-                    let response = await fetch(url);
-                    if (response.ok) {
-                        veri = await response.text();
-                        if (veri && veri.length > 20) break;
+                    let res = await fetch(url);
+                    if (res.ok) {
+                        veri = await res.text();
+                        if (veri.length > 20) break;
                     }
-                } catch (e) {
-                    console.log("Köprü denendi...");
-                }
+                } catch(e) {}
             }
 
-            if (!veri) {
-                vitrin.innerHTML = "<div class='loading-text'>Fiyatlar güncelleniyor, lütfen sayfayı yenileyiniz.</div>";
-                return;
-            }
+            if (!veri) return;
 
             vitrin.innerHTML = "";
-            const satirlar = veri.split(/\r?\n/);
-            let urunListesi = [];
+            let satirlar = veri.split(/\r?\n/);
+            let urunler = [];
 
-            satirlar.forEach(satir => {
-                const sutunlar = satir.split(",");
-                if (sutunlar.length >= 2) {
-                    const urunAdi = sutunlar[0] ? sutunlar[0].trim().replace(/^"|"$/g, '') : "";
-                    let hamFiyat = sutunlar[1] ? sutunlar[1].trim().replace(/^"|"$/g, '').replace(',', '.') : "0";
-                    const ikoFiyati = parseFloat(hamFiyat);
-                    const gorselUrl = (sutunlar[2] && sutunlar[2].trim() !== "") 
-                        ? sutunlar[2].trim().replace(/^"|"$/g, '') 
-                        : "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=400&q=80";
-
-                    if (urunAdi !== "" && !isNaN(ikoFiyati) && ikoFiyati > 0) {
-                        urunListesi.push({ ad: urunAdi, fiyat: ikoFiyati, gorsel: gorselUrl });
+            satirlar.forEach(s => {
+                let col = s.split(",");
+                if (col.length >= 2) {
+                    let name = col[0] ? col[0].trim().replace(/^"|"$/g, '') : "";
+                    let price = col[1] ? parseFloat(col[1].trim().replace(/^"|"$/g, '').replace(',', '.')) : 0;
+                    if (name && !isNaN(price) && price > 0) {
+                        urunler.push({ name, price });
                     }
                 }
             });
 
-            // Çapraz eşleme: Alış satırındaki fiyatı Satış kartında, Satış satırındaki fiyatı Alış kartında gösteriyoruz.
-            for (let i = 0; i < urunListesi.length; i += 2) {
-                let alisObj = urunListesi[i];
-                let satisObj = urunListesi[i+1];
+            for (let i = 0; i < urunler.length; i += 2) {
+                let u1 = urunler[i];
+                let u2 = urunler[i+1];
 
-                if (alisObj && satisObj) {
-                    // Alış Kartı (İçine Satış fiyatı yazılıyor)
-                    const kartAlis = `
+                if (u1 && u2) {
+                    // Yüksek olan otomatik SATIŞ, Düşük olan ALIŞ seçilir
+                    let satisHam = Math.max(u1.price, u2.price);
+                    let alisHam = Math.min(u1.price, u2.price);
+
+                    let indirimliSatis = indirimHesapla(u1.name, satisHam);
+                    let imgUrl = gorselSec(u1.name);
+                    let temelIsim = u1.name.replace(" Alış", "").replace(" Satış", "");
+
+                    let html = `
                         <div class="gold-card">
-                            <div class="card-image-box"><img src="${alisObj.gorsel}" alt="${alisObj.ad}"></div>
-                            <div class="card-title">${alisObj.ad}</div>
+                            <div class="card-image-box"><img src="${imgUrl}" alt="${temelIsim}"></div>
+                            <div class="card-title">${temelIsim}</div>
                             <div class="price-container">
                                 <div class="price-box">
-                                    <span class="price-label">ALIŞ FİYATI</span>
-                                    <span class="price-val buy-val">${satisObj.fiyat.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</span>
+                                    <span class="price-label">ALIŞ</span>
+                                    <span class="price-val buy-val">${alisHam.toLocaleString('tr-TR', {minimumFractionDigits:2})} ₺</span>
+                                </div>
+                                <div class="price-box">
+                                    <span class="price-label">SATIŞ</span>
+                                    <span class="price-val sell-val">${indirimliSatis.toLocaleString('tr-TR', {minimumFractionDigits:2})} ₺</span>
                                 </div>
                             </div>
                             <div class="card-action">
-                                <a href="https://wa.me/905000000000?text=${encodeURIComponent(alisObj.ad + ' hakkında bilgi almak istiyorum.')}" target="_blank" class="btn-order">BİLGİ & SİPARİŞ</a>
+                                <a href="https://wa.me/${TEL_NO}?text=${encodeURIComponent(temelIsim + ' almak istiyorum.')}" target="_blank" class="btn-order">BİLGİ & SİPARİŞ</a>
                             </div>
                         </div>
                     `;
-
-                    // Satış Kartı (İçine Alış fiyatı yazılıyor)
-                    const kartSatis = `
-                        <div class="gold-card">
-                            <div class="card-image-box"><img src="${satisObj.gorsel}" alt="${satisObj.ad}"></div>
-                            <div class="card-title">${satisObj.ad}</div>
-                            <div class="price-container">
-                                <div class="price-box">
-                                    <span class="price-label">SATIŞ FİYATI</span>
-                                    <span class="price-val sell-val">${alisObj.fiyat.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</span>
-                                </div>
-                            </div>
-                            <div class="card-action">
-                                <a href="https://wa.me/905000000000?text=${encodeURIComponent(satisObj.ad + ' hakkında bilgi almak istiyorum.')}" target="_blank" class="btn-order">BİLGİ & SİPARİŞ</a>
-                            </div>
-                        </div>
-                    `;
-
-                    vitrin.innerHTML += kartAlis + kartSatis;
+                    vitrin.innerHTML += html;
                 }
             }
         }
 
-        urunleriYukle();
-        setInterval(urunleriYukle, 60000);
+        // Manuel Ürün Paneli Scripti
+        const urunForm = document.getElementById("urunForm");
+        const ozelVitrin = document.getElementById("ozelVitrin");
+
+        let ozelUrunler = JSON.parse(localStorage.getItem("yagmur_ozel_urunler")) || [];
+
+        function ozelVitrinCiz() {
+            ozelVitrin.innerHTML = "";
+            ozelUrunler.forEach((u, index) => {
+                let html = `
+                    <div class="gold-card">
+                        <button class="btn-delete" onclick="urunSil(${index})">×</button>
+                        <div class="card-image-box"><img src="${u.img || GORSELLER.gram}" alt="${u.name}"></div>
+                        <div class="card-title">${u.name}</div>
+                        ${u.gram ? `<div class="card-gram">⚖ ${u.gram}</div>` : ''}
+                        <div class="price-container">
+                            <div class="price-box">
+                                <span class="price-label">FİYAT</span>
+                                <span class="price-val sell-val">${parseFloat(u.price).toLocaleString('tr-TR')} ₺</span>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <a href="https://wa.me/${TEL_NO}?text=${encodeURIComponent(u.name + ' ürünü hakkında bilgi almak istiyorum.')}" target="_blank" class="btn-order">BİLGİ & SİPARİŞ</a>
+                        </div>
+                    </div>
+                `;
+                ozelVitrin.innerHTML += html;
+            });
+        }
+
+        urunForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            let name = document.getElementById("pName").value;
+            let gram = document.getElementById("pGram").value;
+            let price = document.getElementById("pPrice").value;
+            let fileInput = document.getElementById("pImage");
+
+            if (fileInput.files && fileInput.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    ozelUrunler.push({ name, gram, price, img: e.target.result });
+                    localStorage.setItem("yagmur_ozel_urunler", JSON.stringify(ozelUrunler));
+                    ozelVitrinCiz();
+                    urunForm.reset();
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                ozelUrunler.push({ name, gram, price, img: GORSELLER.gram });
+                localStorage.setItem("yagmur_ozel_urunler", JSON.stringify(ozelUrunler));
+                ozelVitrinCiz();
+                urunForm.reset();
+            }
+        });
+
+        function urunSil(index) {
+            ozelUrunler.splice(index, 1);
+            localStorage.setItem("yagmur_ozel_urunler", JSON.stringify(ozelUrunler));
+            ozelVitrinCiz();
+        }
+
+        canliVeriYukle();
+        ozelVitrinCiz();
+        setInterval(canliVeriYukle, 60000);
     </script>
 </body>
 </html>
