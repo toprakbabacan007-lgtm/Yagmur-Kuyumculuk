@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yağmur Kuyumculuk - Anlık Fiyat & Sarrafiye Vitrini</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #242628;
+            --card-bg: #2e3134;
+            --gold-primary: #d4af37;
+            --text-light: #f0f0f0;
+            --text-muted: #b0b3b8;
+            --buy-color: #5ab1ef;
+            --sell-color: #2ecc71;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(180deg, #1b1c1e 0%, #242628 100%);
+            border-bottom: 2px solid var(--gold-primary);
+            padding: 2.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.8em;
+            color: var(--gold-primary);
+            margin: 0;
+            letter-spacing: 4px;
+        }
+        header p {
+            font-size: 0.95em;
+            color: var(--text-muted);
+            margin-top: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .market-banner {
+            background-color: #1a1c1e;
+            border: 1px solid #3a3d40;
+            border-radius: 8px;
+            padding: 14px 20px;
+            text-align: center;
+            font-size: 0.85em;
+            color: var(--gold-primary);
+            margin-bottom: 35px;
+            letter-spacing: 1px;
+        }
+
+        .gold-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .gold-card {
+            background-color: var(--card-bg);
+            border: 1px solid #3c4043;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        }
+        .gold-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--gold-primary);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+        }
+
+        .card-image-box {
+            width: 100%;
+            height: 200px;
+            background-color: #1d1f21;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid #3a3d40;
+        }
+        .card-image-box img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .card-title {
+            font-size: 1.15em;
+            font-weight: 700;
+            color: #fff;
+            padding: 15px 15px 5px;
+            text-align: center;
+        }
+
+        .price-container {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            margin: 10px 15px;
+            background-color: #1e2022;
+            border-radius: 8px;
+            border: 1px solid #35383b;
+        }
+        .price-box {
+            text-align: center;
+            flex: 1;
+        }
+        .price-label {
+            font-size: 0.75em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .price-val {
+            font-size: 1.25em;
+            font-weight: 700;
+        }
+        .buy-val { color: var(--buy-color); }
+        .sell-val { color: var(--sell-color); }
+
+        .card-action {
+            padding: 0 15px 18px;
+        }
+        .btn-order {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            background: linear-gradient(135deg, var(--gold-primary), #b89728);
+            color: #111;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .loading-text {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 1.2em;
+            color: var(--text-muted);
+            padding: 50px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>YAĞMUR KUYUMCULUK</h1>
+        <p>GÜVEN, ZARAFET VE ANLIK SARRAFİYE DEĞERLERİ</p>
+    </header>
+
+    <div class="container">
+        <div class="market-banner">
+            ✦ Fiyatlarımız İstanbul Kuyumcular Odası piyasa referansı üzerinden <strong>-80 TL avantajlı satış fırsatıyla</strong> canlı güncellenmektedir.
+        </div>
+
+        <div class="gold-grid" id="vitrin">
+            <div class="loading-text">Anlık piyasa verileri ve vitrin yükleniyor...</div>
+        </div>
+    </div>
+
+    <script>
+        const ORJINAL_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT26N61HNMzXTIhVOYRbQ28_0Y4JPnPoUTpCe3ZrY3RIrFR2hfkARzgVEv4tGKnrYd_623lYSQ9ycyJ/pub?output=csv";
+        // Herhangi bir güvenlik engeline takılmamak için alternatif güvenli proxy
+        const PROXY_URL = "https://api.allorigins.win/raw?url=" + encodeURIComponent(ORJINAL_CSV_URL);
+
+        async function urunleriYukle() {
+            try {
+                const response = await fetch(PROXY_URL);
+                if (!response.ok) throw new Error("Veri okunamadı");
+                
+                const veri = await response.text();
+                const satirlar = veri.split(/\r?\n/).slice(1);
+                const vitrin = document.getElementById("vitrin");
+                vitrin.innerHTML = "";
+
+                let urunSayisi = 0;
+
+                satirlar.forEach(satir => {
+                    const sutunlar = satir.split(",");
+                    if (sutunlar.length >= 2) {
+                        const urunAdi = sutunlar[0] ? sutunlar[0].trim().replace(/^"|"$/g, '') : "";
+                        const ikoFiyati = parseFloat(sutunlar[1] ? sutunlar[1].trim().replace(/^"|"$/g, '') : "0");
+                        const gorselUrl = (sutunlar[2] && sutunlar[2].trim() !== "") 
+                            ? sutunlar[2].trim().replace(/^"|"$/g, '') 
+                            : "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=400&q=80";
+
+                        if (urunAdi !== "" && !isNaN(ikoFiyati) && ikoFiyati > 0) {
+                            urunSayisi++;
+                            let isSatis = urunAdi.toLowerCase().includes("satış") || urunAdi.toLowerCase().includes("satis");
+                            let hesaplananFiyat = isSatis ? (ikoFiyati - 80) : ikoFiyati;
+
+                            let valClass = isSatis ? "sell-val" : "buy-val";
+                            let etiketAdi = isSatis ? "SATIŞ FİYATI (-80 ₺)" : "ALIŞ FİYATI";
+
+                            const kart = `
+                                <div class="gold-card">
+                                    <div class="card-image-box">
+                                        <img src="${gorselUrl}" alt="${urunAdi}">
+                                    </div>
+                                    <div class="card-title">${urunAdi}</div>
+                                    <div class="price-container">
+                                        <div class="price-box">
+                                            <span class="price-label">${etiketAdi}</span>
+                                            <span class="price-val ${valClass}">${hesaplananFiyat.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-action">
+                                        <a href="https://wa.me/905000000000?text=${encodeURIComponent(urunAdi + ' hakkında bilgi almak istiyorum.')}" target="_blank" class="btn-order">
+                                            BİLGİ & SİPARİŞ
+                                        </a>
+                                    </div>
+                                </div>
+                            `;
+                            vitrin.innerHTML += kart;
+                        }
+                    }
+                });
+
+                if (urunSayisi === 0) {
+                    vitrin.innerHTML = "<div class='loading-text'>Tablonuz henüz güncelleniyor veya boş görünüyor. Lütfen Apps Script kodunu bir kez 'Çalıştır' yapınız.</div>";
+                }
+
+            } catch (hata) {
+                console.error("Hata:", hata);
+                document.getElementById("vitrin").innerHTML = "<div class='loading-text'>Veriler çekilirken bir sorun oluştu. Sayfayı yenileyiniz.</div>";
+            }
+        }
+
+        urunleriYukle();
+        setInterval(urunleriYukle, 60000);
+    </script>
+</body>
+</html>
