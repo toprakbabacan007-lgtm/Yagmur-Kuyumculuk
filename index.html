@@ -52,18 +52,6 @@
             padding: 0 20px;
         }
 
-        .market-banner {
-            background-color: #1a1c1e;
-            border: 1px solid #3a3d40;
-            border-radius: 8px;
-            padding: 14px 20px;
-            text-align: center;
-            font-size: 0.85em;
-            color: var(--gold-primary);
-            margin-bottom: 35px;
-            letter-spacing: 1px;
-        }
-
         .gold-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -173,10 +161,6 @@
     </header>
 
     <div class="container">
-        <div class="market-banner">
-            ✦ Fiyatlarımız İstanbul Kuyumcular Odası piyasa referansı üzerinden <strong>-80 TL avantajlı satış fırsatıyla</strong> canlı güncellenmektedir.
-        </div>
-
         <div class="gold-grid" id="vitrin">
             <div class="loading-text">Anlık piyasa verileri ve vitrin yükleniyor...</div>
         </div>
@@ -188,11 +172,10 @@
         async function urunleriYukle() {
             const vitrin = document.getElementById("vitrin");
             
-            // Güvenlik engelini aşan çoklu servis altyapısı
             const proxyListesi = [
                 "https://api.allorigins.win/raw?url=" + encodeURIComponent(ORJINAL_CSV_URL),
                 "https://corsproxy.io/?" + encodeURIComponent(ORJINAL_CSV_URL),
-                "https://thingproxy.freeboard.io/fetch/" + ORJINAL_CSV_URL
+                ORJINAL_CSV_URL
             ];
 
             let veri = null;
@@ -217,6 +200,10 @@
             vitrin.innerHTML = "";
             const satirlar = veri.split(/\r?\n/);
 
+            // Alış ve Satış ürünlerini gruplayıp yerlerini değiştirmek için geçici listeler
+            let alisKartiHTML = "";
+            let satisKartiHTML = "";
+
             satirlar.forEach(satir => {
                 const sutunlar = satir.split(",");
                 if (sutunlar.length >= 2) {
@@ -233,7 +220,7 @@
                         let hesaplananFiyat = isSatis ? (ikoFiyati - 80) : ikoFiyati;
 
                         let valClass = isSatis ? "sell-val" : "buy-val";
-                        let etiketAdi = isSatis ? "SATIŞ FİYATI (-80 ₺)" : "ALIŞ FİYATI";
+                        let etiketAdi = isSatis ? "SATIŞ FİYATI" : "ALIŞ FİYATI";
 
                         const kart = `
                             <div class="gold-card">
@@ -254,10 +241,18 @@
                                 </div>
                             </div>
                         `;
-                        vitrin.innerHTML += kart;
+
+                        if (isSatis) {
+                            satisKartiHTML += kart;
+                        } else {
+                            alisKartiHTML += kart;
+                        }
                     }
                 }
             });
+
+            // Yer değişimi: Önce Satışlar (veya istediğin sıralama), sonra Alışlar diziliyor
+            vitrin.innerHTML = satisKartiHTML + alisKartiHTML;
         }
 
         urunleriYukle();
