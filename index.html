@@ -33,22 +33,15 @@
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 20px;
-        }
-
-        @media (min-width: 1024px) {
-            .container {
-                grid-template-columns: 320px 1fr;
-            }
         }
 
         /* HEADER */
         header {
-            grid-column: 1 / -1;
             background: #1e293b;
-            padding: 18px 24px;
+            padding: 20px 24px;
             border-radius: 14px;
             border: 1px solid var(--border-color);
             display: flex;
@@ -57,101 +50,34 @@
         }
 
         .brand h1 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             color: var(--accent-gold);
             font-weight: 700;
         }
 
         .iko-badge {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             background-color: rgba(245, 158, 11, 0.15);
             color: var(--accent-gold);
-            padding: 4px 10px;
+            padding: 6px 12px;
             border-radius: 8px;
             border: 1px solid var(--accent-gold);
             font-weight: 600;
-        }
-
-        /* SIDEBAR - ANLIK GRAM HESAPLAMA */
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .card {
-            background-color: var(--bg-secondary);
-            border-radius: 14px;
-            padding: 18px;
-            border: 1px solid var(--border-color);
-        }
-
-        .card-title {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 14px;
-            color: var(--accent-gold);
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .form-control {
-            width: 100%;
-            background-color: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            color: #fff;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            outline: none;
-        }
-
-        .result-box {
-            background-color: var(--bg-primary);
-            border: 1px solid var(--accent-gold);
-            border-radius: 10px;
-            padding: 12px;
-            margin-top: 10px;
-        }
-
-        .result-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-        }
-
-        .result-val {
-            font-weight: 700;
-            color: var(--accent-gold);
-            font-size: 1.1rem;
         }
 
         /* FILTERS & PRODUCTS GRID */
         .main-content {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
         }
 
         .filter-bar {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
             background-color: var(--bg-secondary);
-            padding: 12px;
+            padding: 14px;
             border-radius: 14px;
             border: 1px solid var(--border-color);
         }
@@ -160,11 +86,17 @@
             background-color: var(--bg-primary);
             color: var(--text-muted);
             border: 1px solid var(--border-color);
-            padding: 6px 14px;
-            border-radius: 18px;
-            font-size: 0.8rem;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
             font-weight: 500;
             cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-gold);
+            color: var(--text-main);
         }
 
         .filter-btn.active {
@@ -176,60 +108,69 @@
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
         }
 
         .product-card {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 14px;
+            padding: 18px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-gold);
         }
 
         .product-category {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: var(--accent-gold);
             text-transform: uppercase;
             font-weight: 600;
+            margin-bottom: 4px;
         }
 
         .product-title {
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 600;
-            margin: 4px 0 12px 0;
+            margin-bottom: 14px;
         }
 
         .product-pricing {
             border-top: 1px solid var(--border-color);
-            padding-top: 10px;
+            padding-top: 12px;
         }
 
         .price-line {
             display: flex;
             justify-content: space-between;
-            font-size: 0.85rem;
-            margin-bottom: 4px;
+            align-items: center;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
         }
 
         .price-highlight {
             font-weight: 700;
             color: #fff;
+            font-size: 1.1rem;
         }
 
         .installment-highlight {
             color: var(--accent-gold);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             text-align: right;
             font-weight: 600;
         }
 
         .margin-tag {
-            font-size: 0.7rem;
-            color: var(--text-muted);
+            font-size: 0.75rem;
+            color: var(--success);
             text-align: right;
         }
     </style>
@@ -244,40 +185,6 @@
         </div>
         <div class="iko-badge">📡 İKO Canlı Fiyat Entegrasyonu Aktif</div>
     </header>
-
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <!-- ANLIK İKO GRAM HESABI (-50 TL EKSİ MARJLI) -->
-        <div class="card">
-            <div class="card-title">⚡ Hızlı Gram Fiyat Hesaplayıcı</div>
-            <div class="form-group">
-                <label>Miktar (Gram):</label>
-                <input type="number" id="calcGram" class="form-control" value="10" placeholder="Örn: 10">
-            </div>
-            <div class="form-group">
-                <label>İKO Ham Has Fiyatı (TL):</label>
-                <input type="number" id="calcUnitPrice" class="form-control" value="2500" placeholder="İKO Fiyatı">
-            </div>
-
-            <div class="result-box">
-                <div class="result-row">
-                    <span>Satış Fiyatı (50 TL Eksi):</span>
-                    <span class="result-val" id="resGramUnitPrice">0 TL/gr</span>
-                </div>
-                <div class="result-row" style="margin-top: 8px; border-top: 1px dashed var(--border-color); padding-top: 8px;">
-                    <span>Toplam TL:</span>
-                    <span class="result-val" id="resWire">0 TL</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- MAĞAZA KONUMU -->
-        <div class="card">
-            <div class="card-title">📍 Mağaza Konumu</div>
-            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom: 8px;">Adres: Kuyumcular Çarşısı No: 42</p>
-            <a href="https://maps.google.com" target="_blank" style="color: var(--accent-gold); font-size: 0.85rem; text-decoration: none; font-weight: 600;">🗺️ Haritalarda Aç &rarr;</a>
-        </div>
-    </div>
 
     <!-- MAIN CONTENT -->
     <div class="main-content">
@@ -306,7 +213,7 @@
 </div>
 
 <script>
-    // 1. İKO CANLI VERİLERİ VE EKSİ MARJ KURALLARI
+    // 1. İKO CANLI VERİLERİ (DÜŞÜŞ MARJLARI UYGULANMIŞ)
     const ikoRawPrices = [
         { title: "24 Ayar Has Gram Altın", category: "gram", rawPrice: 2500, minusMargin: 50, source: "iko" },
         { title: "Çeyrek Altın", category: "ceyrek", rawPrice: 4100, minusMargin: 60, source: "iko" },
@@ -331,25 +238,6 @@
         return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(num);
     }
 
-    // ANLIK GRAM HESAPLAYICI (İKO Ham Gram - 50 TL) x Miktar
-    const gramInput = document.getElementById('calcGram');
-    const unitPriceInput = document.getElementById('calcUnitPrice');
-
-    function calculateGram() {
-        const g = parseFloat(gramInput.value) || 0;
-        const rawP = parseFloat(unitPriceInput.value) || 0;
-        
-        // Gramda 50 TL eksi düşüyoruz
-        const finalUnitPrice = Math.max(0, rawP - 50);
-        const total = g * finalUnitPrice;
-
-        document.getElementById('resGramUnitPrice').innerText = fmt(finalUnitPrice) + "/gr";
-        document.getElementById('resWire').innerText = fmt(total);
-    }
-
-    gramInput.addEventListener('input', calculateGram);
-    unitPriceInput.addEventListener('input', calculateGram);
-
     // ÜRÜN LİSTELEME MANTIĞI
     let currentFilter = 'all';
 
@@ -357,7 +245,7 @@
         const container = document.getElementById('productsContainer');
         container.innerHTML = '';
 
-        // İKO ürünlerinin fiyatlarını eksi marjı düşerek hesaplıyoruz
+        // İKO ürünlerinin fiyatlarını belirlenen eksi marjlar düşülerek hesaplıyoruz
         const calculatedIkoProducts = ikoRawPrices.map(item => {
             const finalPrice = Math.max(0, item.rawPrice - item.minusMargin);
             return {
@@ -386,10 +274,10 @@
                 const monthly = item.price / 3;
                 footerInfo = `<div class="installment-highlight">💳 Kart 3 Taksit: 3 x ${fmt(monthly)}</div>`;
             } else if (item.source === 'iko') {
-                // İKO ürünü -> Taksit yok, uygulanan eksi düşüş yazar
-                footerInfo = `<div class="margin-tag">📡 İKO Canlı (-${item.minusMargin} TL Düşüldü)</div>`;
+                // İKO ürünü -> Taksit yok
+                footerInfo = `<div class="margin-tag">📡 İKO Canlı Fiyat</div>`;
             } else {
-                footerInfo = `<div style="font-size:0.75rem; color:var(--text-muted); text-align:right;">Tek Çekim</div>`;
+                footerInfo = `<div style="font-size:0.8rem; color:var(--text-muted); text-align:right;">Tek Çekim</div>`;
             }
 
             card.innerHTML = `
@@ -417,7 +305,6 @@
     }
 
     // İlk Çalıştırma
-    calculateGram();
     renderList();
 </script>
 
