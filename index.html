@@ -3,606 +3,592 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuyumcu & Saat Mağaza Paneli</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Yağmur Kuyumculuk - Anlık Fiyat & Özel Vitrin</title>
+    <!-- Site İkonu (Favicon) -->
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Gold_coin_icon.png/120px-Gold_coin_icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-card: #334155;
-            --accent-gold: #f59e0b;
-            --accent-gold-hover: #d97706;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #475569;
-            --success: #10b981;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
+            --bg-color: #242628;
+            --card-bg: #2e3134;
+            --gold-primary: #d4af37;
+            --gold-light: #f3e5ab;
+            --text-light: #f0f0f0;
+            --text-muted: #b0b3b8;
+            --buy-color: #5ab1ef;
+            --sell-color: #2ecc71;
         }
 
         body {
-            background-color: var(--bg-primary);
-            color: var(--text-main);
-            padding: 20px;
-            min-height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        @media (min-width: 1024px) {
-            .container {
-                grid-template-columns: 360px 1fr;
-            }
-        }
-
-        /* HEADER */
         header {
-            grid-column: 1 / -1;
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            padding: 20px 24px;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
+            background: linear-gradient(180deg, #151618 0%, #242628 100%);
+            border-bottom: 2px solid var(--gold-primary);
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            justify-content: center;
         }
 
-        .brand-title {
+        /* Dijitalleştirilmiş Mağaza Logosu */
+        .brand-logo-container {
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            border: 3px solid var(--gold-primary);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.3), inset 0 0 15px rgba(212, 175, 55, 0.2);
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 12px;
+            justify-content: center;
+            background: radial-gradient(circle, #2e3134 0%, #1a1c1e 100%);
+            margin-bottom: 15px;
+            padding: 10px;
+            box-sizing: border-box;
         }
 
-        .brand-title h1 {
-            font-size: 1.5rem;
-            color: var(--accent-gold);
+        .brand-logo-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.25em;
+            font-weight: 800;
+            color: var(--gold-primary);
+            letter-spacing: 2px;
+            line-height: 1.1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            margin: 0;
+        }
+
+        .brand-logo-sub {
+            font-family: 'Cinzel', serif;
+            font-size: 0.72em;
             font-weight: 700;
-            letter-spacing: 0.5px;
+            color: var(--gold-light);
+            letter-spacing: 1.5px;
+            margin-top: 4px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
 
-        .live-rates {
-            display: flex;
-            gap: 20px;
-            background: rgba(15, 23, 42, 0.6);
-            padding: 10px 18px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-        }
-
-        .rate-item {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
-        .rate-label {
-            font-size: 0.75rem;
+        header p.slogan {
+            font-size: 0.85em;
             color: var(--text-muted);
-        }
-
-        .rate-value {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--success);
-        }
-
-        /* SIDEBAR - HIZLI HESAPLAYICI */
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .card {
-            background-color: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--accent-gold);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-
-        .calculator-form {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .form-group label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .form-control {
-            width: 100%;
-            background-color: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            color: #fff;
-            padding: 12px 14px;
-            border-radius: 8px;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.2s;
-        }
-
-        .form-control:focus {
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
-        }
-
-        .input-suffix {
-            position: absolute;
-            right: 12px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            font-weight: 500;
-            pointer-events: none;
-        }
-
-        .result-box {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(15, 23, 42, 0.4) 100%);
-            border: 1px solid var(--accent-gold);
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 6px;
-        }
-
-        .result-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .result-row:last-child {
-            margin-bottom: 0;
-            padding-top: 8px;
-            border-top: 1px dashed var(--border-color);
-        }
-
-        .result-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .result-val {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .result-val.highlight {
-            color: var(--accent-gold);
-            font-size: 1.25rem;
-        }
-
-        .payment-badge {
-            display: inline-block;
-            background-color: rgba(16, 185, 129, 0.15);
-            color: var(--success);
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .payment-badge.card-badge {
-            background-color: rgba(245, 158, 11, 0.15);
-            color: var(--accent-gold);
-        }
-
-        /* MAIN CATALOG & FILTERS */
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .filter-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            background-color: var(--bg-secondary);
-            padding: 14px;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-        }
-
-        .filter-btn {
-            background-color: var(--bg-primary);
-            color: var(--text-muted);
-            border: 1px solid var(--border-color);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .filter-btn:hover {
-            color: var(--text-main);
-            border-color: var(--accent-gold);
-        }
-
-        .filter-btn.active {
-            background-color: var(--accent-gold);
-            color: #0f172a;
-            border-color: var(--accent-gold);
-            font-weight: 600;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 16px;
-        }
-
-        .product-card {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .product-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent-gold);
-        }
-
-        .product-tag {
-            align-self: flex-start;
-            font-size: 0.7rem;
-            background-color: var(--bg-primary);
-            color: var(--accent-gold);
-            padding: 3px 8px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            margin-bottom: 8px;
+            margin-top: 10px;
+            letter-spacing: 2px;
             text-transform: uppercase;
         }
 
-        .product-name {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 6px;
+        .container {
+            max-width: 1250px;
+            margin: 30px auto;
+            padding: 0 20px;
         }
 
-        .product-details {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-        }
-
-        .product-pricing {
-            border-top: 1px solid var(--border-color);
-            padding-top: 10px;
-            margin-top: 4px;
-        }
-
-        .price-item {
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5em;
+            color: var(--gold-primary);
+            border-bottom: 1px solid #3c4043;
+            padding-bottom: 10px;
+            margin: 40px 0 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            font-size: 0.85rem;
-            margin-bottom: 4px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .price-value {
+        .update-badge {
+            font-size: 0.6em;
+            font-family: 'Montserrat', sans-serif;
+            color: #2ecc71;
+            font-weight: 600;
+            background-color: #1a2a20;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid #2ecc71;
+        }
+
+        .gold-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 22px;
+        }
+
+        .gold-card {
+            background-color: var(--card-bg);
+            border: 1px solid #3c4043;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            position: relative;
+        }
+        .gold-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold-primary);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        .card-image-box {
+            width: 100%;
+            height: 220px;
+            background-color: #1d1f21;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid #3a3d40;
+            padding: 10px;
+        }
+        .card-image-box img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.5));
+        }
+
+        .card-title {
+            font-size: 1.1em;
             font-weight: 700;
+            color: #fff;
+            padding: 12px 15px 4px;
+            text-align: center;
+        }
+
+        .card-gram {
+            font-size: 0.85em;
+            color: var(--gold-primary);
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .price-container {
+            display: flex;
+            justify-content: space-around;
+            padding: 12px;
+            margin: 8px 12px;
+            background-color: #1e2022;
+            border-radius: 8px;
+            border: 1px solid #35383b;
+        }
+        .price-box {
+            text-align: center;
+            flex: 1;
+        }
+        .price-label {
+            font-size: 0.7em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 3px;
+            display: block;
+        }
+        .price-val {
+            font-size: 1.2em;
+            font-weight: 700;
+        }
+        .buy-val { color: var(--buy-color); }
+        .sell-val { color: var(--sell-color); }
+
+        .card-action {
+            padding: 0 12px 15px;
+        }
+        .btn-order {
+            display: block;
+            width: 100%;
+            padding: 11px 0;
+            background: linear-gradient(135deg, var(--gold-primary), #b89728);
+            color: #111;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        /* Yönetim Form Alanı */
+        .admin-panel {
+            background-color: #1d1f21;
+            border: 1px solid var(--gold-primary);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 50px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-size: 0.8em;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            padding: 10px;
+            background-color: #2e3134;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 6px;
+        }
+        .btn-add {
+            grid-column: 1 / -1;
+            padding: 12px;
+            background-color: var(--gold-primary);
+            color: #111;
+            font-weight: 700;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 5;
+        }
+
+        /* Yasal Uyarı Metni */
+        .legal-notice {
+            background-color: #1a1c1e;
+            border: 1px dashed #444;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.78em;
+            color: #888;
+            line-height: 1.5;
+        }
+
+        /* Footer & İletişim */
+        footer {
+            background-color: #17181a;
+            border-top: 1px solid #333;
+            padding: 40px 20px;
+            margin-top: 40px;
+            text-align: center;
+        }
+        .footer-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .btn-social {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: transform 0.2s;
+        }
+        .btn-social:hover {
+            transform: scale(1.05);
+        }
+        .btn-insta {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: #fff;
+        }
+        .btn-maps {
+            background-color: #4285F4;
             color: #fff;
         }
 
-        .installment-info {
-            font-size: 0.75rem;
-            color: var(--accent-gold);
-            text-align: right;
-        }
-
-        /* LOCATION CARD */
-        .location-card {
-            background-color: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid var(--border-color);
+        /* Sabit WhatsApp Butonu */
+        .fixed-wa {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: #25d366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
             display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .location-info {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .location-info strong {
-            color: var(--text-main);
-        }
-
-        .btn-maps {
-            display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            background-color: #2563eb;
-            color: white;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.5);
+            z-index: 999;
             text-decoration: none;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: background 0.2s;
-            margin-top: 6px;
+            font-size: 32px;
+            transition: transform 0.2s;
         }
-
-        .btn-maps:hover {
-            background-color: #1d4ed8;
+        .fixed-wa:hover {
+            transform: scale(1.1);
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- HEADER -->
     <header>
-        <div class="brand-title">
-            <span>💎</span>
-            <h1>KUYUMCU & SAAT MAĞAZASI</h1>
+        <!-- Işıklı Tabela Tasarımınızın Dijital Amblemi -->
+        <div class="brand-logo-container">
+            <span class="brand-logo-title">YAĞMUR</span>
+            <span class="brand-logo-sub">KUYUMCULUK</span>
         </div>
-        <div class="live-rates">
-            <div class="rate-item">
-                <span class="rate-label">HAS ALTIN / GRAM</span>
-                <span class="rate-value" id="headerGramPrice">2.500,00 TL</span>
-            </div>
-        </div>
+        <p class="slogan">GÜVEN, ZARAFET, ŞIKLIK VE ANLIK SARRAFİYE DEĞERLERİ</p>
     </header>
 
-    <!-- SIDEBAR / HIZLI HESAPLAYICI -->
-    <div class="sidebar">
-        <!-- Hızlı Gram Hesabı -->
-        <div class="card">
-            <div class="card-title">
-                ⚡ Hızlı Gram Hesaplayıcı
-            </div>
-            <div class="calculator-form">
-                <div class="form-group">
-                    <label for="gramInput">Müşterinin İstediği Miktar (Gram):</label>
-                    <div class="input-wrapper">
-                        <input type="number" id="gramInput" class="form-control" placeholder="Örn: 10" value="10" step="0.01" min="0">
-                        <span class="input-suffix">gr</span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="gramPriceInput">Gram Fiyatı (TL):</label>
-                    <div class="input-wrapper">
-                        <input type="number" id="gramPriceInput" class="form-control" value="2500" step="1" min="0">
-                        <span class="input-suffix">TL</span>
-                    </div>
-                </div>
-
-                <div class="result-box">
-                    <div class="result-row">
-                        <span class="result-label">Ödeme Türü:</span>
-                        <span class="payment-badge">Havale / EFT / Nakit</span>
-                    </div>
-                    <div class="result-row">
-                        <span class="result-label">Toplam Fiyat:</span>
-                        <span class="result-val highlight" id="gramCalcWireResult">25.000,00 TL</span>
-                    </div>
-                </div>
-
-                <div class="result-box" style="border-color: #475569;">
-                    <div class="result-row">
-                        <span class="result-label">Ödeme Türü:</span>
-                        <span class="payment-badge card-badge">Kredi Kartı (3 Taksit)</span>
-                    </div>
-                    <div class="result-row">
-                        <span class="result-label">Toplam Tutarlar:</span>
-                        <span class="result-val" id="gramCalcCardResult">25.000,00 TL</span>
-                    </div>
-                    <div class="result-row" style="border-top: none; padding-top: 0;">
-                        <span class="result-label">Aylık Taksit:</span>
-                        <span class="installment-info" id="gramCalcMonthly" style="font-size: 0.95rem; font-weight: 600;">3 x 8.333,33 TL</span>
-                    </div>
-                </div>
-            </div>
+    <div class="container">
+        
+        <!-- Canlı Borsa & Sarrafiye Vitrini -->
+        <div class="section-title">
+            <span>CANLI SARRAFİYE VE ALTIN FİYATLARI</span>
+            <span class="update-badge" id="updateTime">🟢 Son Güncelleme: Yükleniyor...</span>
+        </div>
+        <div class="gold-grid" id="canliVitrin">
+            <div style="grid-column: 1/-1; text-align:center; padding: 40px; color: #aaa;">Canlı borsa verileri yükleniyor...</div>
         </div>
 
-        <!-- MAĞAZA KONUMU -->
-        <div class="location-card">
-            <div class="card-title" style="margin-bottom: 8px; border-bottom: none; padding-bottom: 0;">
-                📍 Mağaza Konumu
-            </div>
-            <div class="location-info">
-                <p><strong>Adres:</strong> Kuyumcular Çarşısı No: 42, Merkez</p>
-                <p><strong>Çalışma Saatleri:</strong> 09:00 - 19:30 (Pzt-Cmt)</p>
-                <p><strong>Telefon:</strong> +90 (222) 000 00 00</p>
-            </div>
-            <a href="https://maps.google.com" target="_blank" class="btn-maps">
-                🗺️ Haritada Yol Tarifi Al
+        <!-- Özel Eklenen Ürünler Vitrini -->
+        <div class="section-title">ÖZEL COLECTION & MAĞAZA ÜRÜNLERİ</div>
+        <div class="gold-grid" id="ozelVitrin"></div>
+
+        <!-- Ürün Ekleme Paneli -->
+        <div class="admin-panel">
+            <h3 style="color: var(--gold-primary); margin-top: 0;"> Vitrine Yeni Ürün / Takı Ekle</h3>
+            <form id="urunForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Ürün Adı / Başlığı</label>
+                        <input type="text" id="pName" placeholder="Örn: 22 Ayar Ajda Bilezik" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Gramaj (Ağırlık)</label>
+                        <input type="text" id="pGram" placeholder="Örn: 15.40 Gram">
+                    </div>
+                    <div class="form-group">
+                        <label>Satış Fiyatı (TL)</label>
+                        <input type="number" id="pPrice" placeholder="Örn: 48500" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ürün Fotoğrafı</label>
+                        <input type="file" id="pImage" accept="image/*">
+                    </div>
+                    <button type="submit" class="btn-add">+ ÜRÜNÜ VİTRİNE EKLE</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Yasal Bilgilendirme Notu -->
+        <div class="legal-notice">
+            📌 <strong>Yasal Bilgilendirme:</strong> Sitemizdeki fiyatlar piyasa koşullarına göre anlık olarak güncellenmektedir. Nihai alım-satım işlemleri mağazamızda fiziki onay ile gerçekleşir. Piyasa dalgalanmalarına göre anlık değişimler gösterebilir.
+        </div>
+
+    </div>
+
+    <!-- Sabit WhatsApp İletişim Butonu -->
+    <a href="https://wa.me/905428102260" target="_blank" class="fixed-wa" title="WhatsApp Bilgi Hattı">💬</a>
+
+    <footer>
+        <h3 style="color: var(--gold-primary); margin: 0 0 10px 0; font-family: 'Cinzel', serif;">YAĞMUR KUYUMCULUK</h3>
+        <p style="color: #aaa; font-size: 0.85em; margin-bottom: 20px;">Bizi sosyal medyadan takip edebilir veya mağazamıza doğrudan yol tarifi alabilirsiniz.</p>
+        
+        <div class="footer-buttons">
+            <a href="https://www.instagram.com/yagmur.kuyumculuk/" target="_blank" class="btn-social btn-insta">
+                📸 Instagram'da Takip Et
+            </a>
+            <a href="https://www.google.com/maps?vet=10CAAQoqAOahcKEwjY_IrQyfyVAxUAAAAAHQAAAAAQDw..i&pvq=Cg0vZy8xMWgxMTF5NDFkIhcKEXlhZ211ci5rdXl1bWN1bHVrEAIYAw&lqi=ChF5YWdtdXIua3V5dW1jdWx1a0isoPqQhK-AgAhaGxAAEAEYABgBIhF5YWdtdXIga3V5dW1jdWx1a5IBDWpld2Vscnlfc3RvcmU&fvr=1&cs=1&um=1&ie=UTF-8&fb=1&gl=tr&sa=X&ftid=0x14cac54f64716e8d:0x1026e80b10295cb8" target="_blank" class="btn-social btn-maps">
+                📍 Google Haritalar Konumu
             </a>
         </div>
-    </div>
+        <p style="color: #555; font-size: 0.75em; margin-top: 30px;">© Yağmur Kuyumculuk - Tüm hakları saklıdır.</p>
+    </footer>
 
-    <!-- MAIN CATALOG & FILTERS -->
-    <div class="main-content">
-        <!-- Filtre Butonları -->
-        <div class="filter-bar">
-            <button class="filter-btn active" onclick="filterCategory('all', this)">Tümü</button>
-            <button class="filter-btn" onclick="filterCategory('gram', this)">Gram</button>
-            <button class="filter-btn" onclick="filterCategory('ata', this)">Ata</button>
-            <button class="filter-btn" onclick="filterCategory('ceyrek', this)">Çeyrek</button>
-            <button class="filter-btn" onclick="filterCategory('yarim', this)">Yarım</button>
-            <button class="filter-btn" onclick="filterCategory('tam', this)">Tam</button>
-            <button class="filter-btn" onclick="filterCategory('kupe', this)">Küpe</button>
-            <button class="filter-btn" onclick="filterCategory('bileklik', this)">Bileklik</button>
-            <button class="filter-btn" onclick="filterCategory('yuzuk', this)">Yüzük</button>
-            <button class="filter-btn" onclick="filterCategory('kolye', this)">Kolye</button>
-            <button class="filter-btn" onclick="filterCategory('kelepce', this)">Kelepçe</button>
-            <button class="filter-btn" onclick="filterCategory('alyans', this)">Alyans</button>
-            <button class="filter-btn" onclick="filterCategory('saat', this)">Saat</button>
-        </div>
+    <script>
+        const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT26N61HNMzXTIhVOYRbQ28_0Y4JPnPoUTpCe3ZrY3RIrFR2hfkARzgVEv4tGKnrYd_623lYSQ9ycyJ/pub?output=csv";
+        const TEL_NO = "905428102260";
 
-        <!-- Ürün Listesi Grid -->
-        <div class="products-grid" id="productsGrid">
-            <!-- Ürünler Javascript ile yüklenecek -->
-        </div>
-    </div>
-</div>
+        function indirimHesapla(isim, satisFiyat) {
+            let ad = isim.toLowerCase();
+            if (ad.includes("gram")) return satisFiyat - 50;
+            if (ad.includes("çeyrek") || ad.includes("ceyrek")) return satisFiyat - 60;
+            if (ad.includes("yarım") || ad.includes("yarim")) return satisFiyat - 80;
+            if (ad.includes("tam") || ad.includes("ziynet")) return satisFiyat - 100;
+            if (ad.includes("ata") || ad.includes("cumhuriyet")) return satisFiyat - 150;
+            return satisFiyat;
+        }
 
-<script>
-    // ÖRNEK ÜRÜN VERİLERİ (Gerektiğinde güncelleyebilirsiniz)
-    const products = [
-        { id: 1, name: "24 Ayar 1 Gram Altın", category: "gram", basePrice: 2500, type: "taki", desc: "Ayar: 995.0 Has Altın" },
-        { id: 2, name: "Ata Lira (Tam Ziynet)", category: "ata", basePrice: 16800, type: "taki", desc: "Ayar: 22 Ayar | Ağır: 7.21g" },
-        { id: 3, name: "Yeni Tarihli Çeyrek Altın", category: "ceyrek", basePrice: 4100, type: "taki", desc: "Ayar: 22 Ayar | Ağır: 1.75g" },
-        { id: 4, name: "Yarım Altın", category: "yarim", basePrice: 8200, type: "taki", desc: "Ayar: 22 Ayar | Ağır: 3.50g" },
-        { id: 5, name: "Tam Altın (Ziynet)", category: "tam", basePrice: 16400, type: "taki", desc: "Ayar: 22 Ayar | Ağır: 7.00g" },
-        { id: 6, name: "14 Ayar Taşlı Tektaş Küpe", category: "kupe", basePrice: 5500, type: "taki", desc: "Ağırlık: 2.10 gram" },
-        { id: 7, name: "22 Ayar Dorika Bileklik", category: "bileklik", basePrice: 12800, type: "taki", desc: "Ağırlık: 4.80 gram" },
-        { id: 8, name: "14 Ayar Baget Yüzük", category: "yuzuk", basePrice: 7200, type: "taki", desc: "Ağırlık: 2.85 gram" },
-        { id: 9, name: "14 Ayar Zincir Kolye", category: "kolye", basePrice: 9400, type: "taki", desc: "Ağırlık: 3.60 gram" },
-        { id: 10, name: "22 Ayar Kelepçe Bilezik", category: "kelepce", basePrice: 38500, type: "taki", desc: "Ağırlık: 14.20 gram" },
-        { id: 11, name: "Klasik Çift Alyans (Adet)", category: "alyans", basePrice: 6500, type: "taki", desc: "14 Ayar Erkek / Kadın" },
-        { id: 12, name: "Seiko Otomatik Erkek Saati", category: "saat", basePrice: 14500, type: "saat", desc: "Safir Cam, 100m Su Geçirmez" }
-    ];
+        function gorselSec(isim) {
+            let ad = isim.toLowerCase();
+            if (ad.includes("çeyrek") || ad.includes("ceyrek")) return "https://raw.githubusercontent.com/toprakbabacan007-lgtm/Yagmur-Kuyumculuk/main/ceyrek.png";
+            if (ad.includes("yarım") || ad.includes("yarim")) return "https://raw.githubusercontent.com/toprakbabacan007-lgtm/Yagmur-Kuyumculuk/main/yarim.png";
+            if (ad.includes("tam") || ad.includes("ziynet")) return "https://raw.githubusercontent.com/toprakbabacan007-lgtm/Yagmur-Kuyumculuk/main/tam.png";
+            if (ad.includes("ata") || ad.includes("cumhuriyet")) return "https://raw.githubusercontent.com/toprakbabacan007-lgtm/Yagmur-Kuyumculuk/main/ata.png";
+            return "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=500&q=80";
+        }
 
-    // PARA FORMATLAMA FONKSİYONU
-    function formatTL(val) {
-        return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(val);
-    }
+        async function canliVeriYukle() {
+            const vitrin = document.getElementById("canliVitrin");
+            const proxyList = [
+                "https://api.allorigins.win/raw?url=" + encodeURIComponent(CSV_URL),
+                "https://corsproxy.io/?" + encodeURIComponent(CSV_URL),
+                CSV_URL
+            ];
 
-    // 1. ANLIK GRAM HESAPLAYICI ÇALIŞTIRMA
-    const gramInput = document.getElementById('gramInput');
-    const gramPriceInput = document.getElementById('gramPriceInput');
-    const gramCalcWireResult = document.getElementById('gramCalcWireResult');
-    const gramCalcCardResult = document.getElementById('gramCalcCardResult');
-    const gramCalcMonthly = document.getElementById('gramCalcMonthly');
-    const headerGramPrice = document.getElementById('headerGramPrice');
-
-    function calculateGramPrice() {
-        const grams = parseFloat(gramInput.value) || 0;
-        const unitPrice = parseFloat(gramPriceInput.value) || 0;
-
-        const total = grams * unitPrice;
-        const monthly = total / 3;
-
-        // Havale Fiyatı (Birebir Aynı Fiyat)
-        gramCalcWireResult.innerText = formatTL(total);
-        
-        // Kredi Kartı Fiyatı & 3 Taksit
-        gramCalcCardResult.innerText = formatTL(total);
-        gramCalcMonthly.innerText = `3 x ${formatTL(monthly)}`;
-
-        // Header Güncelleme
-        headerGramPrice.innerText = formatTL(unitPrice);
-    }
-
-    gramInput.addEventListener('input', calculateGramPrice);
-    gramPriceInput.addEventListener('input', calculateGramPrice);
-
-    // 2. ÜRÜNLERİ LİSTELEME VE FİLTRELEME
-    let currentCategory = 'all';
-
-    function renderProducts() {
-        const grid = document.getElementById('productsGrid');
-        grid.innerHTML = '';
-
-        const filtered = currentCategory === 'all' 
-            ? products 
-            : products.filter(p => p.category === currentCategory);
-
-        filtered.forEach(p => {
-            const card = document.createElement('div');
-            card.className = 'product-card';
-
-            const wirePriceFormatted = formatTL(p.basePrice);
-            
-            let installmentHtml = '';
-            if (p.type === 'taki') {
-                const monthlyPrice = formatTL(p.basePrice / 3);
-                installmentHtml = `<div class="installment-info">💳 Kart: 3 x ${monthlyPrice}</div>`;
-            } else {
-                installmentHtml = `<div class="installment-info" style="color: var(--text-muted);">💳 Kart Tek Çekim / Ek Taksit</div>`;
+            let veri = null;
+            for (let url of proxyList) {
+                try {
+                    let res = await fetch(url);
+                    if (res.ok) {
+                        veri = await res.text();
+                        if (veri.length > 20) break;
+                    }
+                } catch(e) {}
             }
 
-            card.innerHTML = `
-                <div>
-                    <span class="product-tag">${p.category}</span>
-                    <div class="product-name">${p.name}</div>
-                    <div class="product-details">${p.desc}</div>
-                </div>
-                <div class="product-pricing">
-                    <div class="price-item">
-                        <span style="color:var(--text-muted); font-size:0.8rem;">Havale / Nakit:</span>
-                        <span class="price-value">${wirePriceFormatted}</span>
+            if (!veri) return;
+
+            // Zaman Damgası
+            let simdi = new Date();
+            document.getElementById("updateTime").innerText = "🟢 Son Güncelleme: " + simdi.toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
+
+            vitrin.innerHTML = "";
+            let satirlar = veri.split(/\r?\n/);
+            let urunler = [];
+
+            satirlar.forEach(s => {
+                let col = s.split(",");
+                if (col.length >= 2) {
+                    let name = col[0] ? col[0].trim().replace(/^"|"$/g, '') : "";
+                    let price = col[1] ? parseFloat(col[1].trim().replace(/^"|"$/g, '').replace(',', '.')) : 0;
+                    if (name && !isNaN(price) && price > 0) {
+                        urunler.push({ name, price });
+                    }
+                }
+            });
+
+            for (let i = 0; i < urunler.length; i += 2) {
+                let u1 = urunler[i];
+                let u2 = urunler[i+1];
+
+                if (u1 && u2) {
+                    let satisHam = Math.max(u1.price, u2.price);
+                    let alisHam = Math.min(u1.price, u2.price);
+
+                    let indirimliSatis = indirimHesapla(u1.name, satisHam);
+                    let imgUrl = gorselSec(u1.name);
+                    let temelIsim = u1.name.replace(" Alış", "").replace(" Satış", "");
+
+                    let html = `
+                        <div class="gold-card">
+                            <div class="card-image-box"><img src="${imgUrl}" alt="${temelIsim}" onerror="this.src='https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=500&q=80'"></div>
+                            <div class="card-title">${temelIsim}</div>
+                            <div class="price-container">
+                                <div class="price-box">
+                                    <span class="price-label">ALIŞ</span>
+                                    <span class="price-val buy-val">${alisHam.toLocaleString('tr-TR', {minimumFractionDigits:2})} ₺</span>
+                                </div>
+                                <div class="price-box">
+                                    <span class="price-label">SATIŞ</span>
+                                    <span class="price-val sell-val">${indirimliSatis.toLocaleString('tr-TR', {minimumFractionDigits:2})} ₺</span>
+                                </div>
+                            </div>
+                            <div class="card-action">
+                                <a href="https://wa.me/${TEL_NO}?text=${encodeURIComponent(temelIsim + ' siparişi hakkında bilgi almak istiyorum.')}" target="_blank" class="btn-order">BİLGİ & SİPARİŞ</a>
+                            </div>
+                        </div>
+                    `;
+                    vitrin.innerHTML += html;
+                }
+            }
+        }
+
+        // Manuel Ürün Paneli Scripti
+        const urunForm = document.getElementById("urunForm");
+        const ozelVitrin = document.getElementById("ozelVitrin");
+
+        let ozelUrunler = JSON.parse(localStorage.getItem("yagmur_ozel_urunler")) || [];
+
+        function ozelVitrinCiz() {
+            ozelVitrin.innerHTML = "";
+            ozelUrunler.forEach((u, index) => {
+                let html = `
+                    <div class="gold-card">
+                        <button class="btn-delete" onclick="urunSil(${index})">×</button>
+                        <div class="card-image-box"><img src="${u.img}" alt="${u.name}"></div>
+                        <div class="card-title">${u.name}</div>
+                        ${u.gram ? `<div class="card-gram">⚖ ${u.gram}</div>` : ''}
+                        <div class="price-container">
+                            <div class="price-box">
+                                <span class="price-label">SATIŞ FİYATI</span>
+                                <span class="price-val sell-val">${parseFloat(u.price).toLocaleString('tr-TR')} ₺</span>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <a href="https://wa.me/${TEL_NO}?text=${encodeURIComponent(u.name + ' ürünü hakkında bilgi almak istiyorum.')}" target="_blank" class="btn-order">BİLGİ & SİPARİŞ</a>
+                        </div>
                     </div>
-                    ${installmentHtml}
-                </div>
-            `;
-            grid.appendChild(card);
+                `;
+                ozelVitrin.innerHTML += html;
+            });
+        }
+
+        urunForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            let name = document.getElementById("pName").value;
+            let gram = document.getElementById("pGram").value;
+            let price = document.getElementById("pPrice").value;
+            let fileInput = document.getElementById("pImage");
+
+            if (fileInput.files && fileInput.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    ozelUrunler.push({ name, gram, price, img: e.target.result });
+                    localStorage.setItem("yagmur_ozel_urunler", JSON.stringify(ozelUrunler));
+                    ozelVitrinCiz();
+                    urunForm.reset();
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                ozelUrunler.push({ name, gram, price, img: "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=500&q=80" });
+                localStorage.setItem("yagmur_ozel_urunler", JSON.stringify(ozelUrunler));
+                ozelVitrinCiz();
+                urunForm.reset();
+            }
         });
-    }
 
-    function filterCategory(cat, btn) {
-        currentCategory = cat;
-        
-        // Buton aktiflik sınıflarını ayarla
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+        function urunSil(index) {
+            ozelUrunler.splice(index, 1);
+            localStorage.setItem("yagmur_ozel_urunler", JSON.stringify(ozelUrunler));
+            ozelVitrinCiz();
+        }
 
-        renderProducts();
-    }
-
-    // İLK YÜKLEME
-    calculateGramPrice();
-    renderProducts();
-</script>
-
+        canliVeriYukle();
+        ozelVitrinCiz();
+        setInterval(canliVeriYukle, 60000);
+    </script>
 </body>
 </html>
