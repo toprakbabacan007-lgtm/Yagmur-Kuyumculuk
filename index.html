@@ -199,10 +199,7 @@
 
             vitrin.innerHTML = "";
             const satirlar = veri.split(/\r?\n/);
-
-            // Alış ve Satış ürünlerini gruplayıp yerlerini değiştirmek için geçici listeler
-            let alisKartiHTML = "";
-            let satisKartiHTML = "";
+            let urunListesi = [];
 
             satirlar.forEach(satir => {
                 const sutunlar = satir.split(",");
@@ -210,49 +207,59 @@
                     const urunAdi = sutunlar[0] ? sutunlar[0].trim().replace(/^"|"$/g, '') : "";
                     let hamFiyat = sutunlar[1] ? sutunlar[1].trim().replace(/^"|"$/g, '').replace(',', '.') : "0";
                     const ikoFiyati = parseFloat(hamFiyat);
-
                     const gorselUrl = (sutunlar[2] && sutunlar[2].trim() !== "") 
                         ? sutunlar[2].trim().replace(/^"|"$/g, '') 
                         : "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=400&q=80";
 
                     if (urunAdi !== "" && !isNaN(ikoFiyati) && ikoFiyati > 0) {
-                        let isSatis = urunAdi.toLowerCase().includes("satış") || urunAdi.toLowerCase().includes("satis");
-                        let hesaplananFiyat = isSatis ? (ikoFiyati - 80) : ikoFiyati;
-
-                        let valClass = isSatis ? "sell-val" : "buy-val";
-                        let etiketAdi = isSatis ? "SATIŞ FİYATI" : "ALIŞ FİYATI";
-
-                        const kart = `
-                            <div class="gold-card">
-                                <div class="card-image-box">
-                                    <img src="${gorselUrl}" alt="${urunAdi}">
-                                </div>
-                                <div class="card-title">${urunAdi}</div>
-                                <div class="price-container">
-                                    <div class="price-box">
-                                        <span class="price-label">${etiketAdi}</span>
-                                        <span class="price-val ${valClass}">${hesaplananFiyat.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</span>
-                                    </div>
-                                </div>
-                                <div class="card-action">
-                                    <a href="https://wa.me/905000000000?text=${encodeURIComponent(urunAdi + ' hakkında bilgi almak istiyorum.')}" target="_blank" class="btn-order">
-                                        BİLGİ & SİPARİŞ
-                                    </a>
-                                </div>
-                            </div>
-                        `;
-
-                        if (isSatis) {
-                            satisKartiHTML += kart;
-                        } else {
-                            alisKartiHTML += kart;
-                        }
+                        urunListesi.push({ ad: urunAdi, fiyat: ikoFiyati, gorsel: gorselUrl });
                     }
                 }
             });
 
-            // Yer değişimi: Önce Satışlar (veya istediğin sıralama), sonra Alışlar diziliyor
-            vitrin.innerHTML = satisKartiHTML + alisKartiHTML;
+            // Çapraz eşleme: Alış satırındaki fiyatı Satış kartında, Satış satırındaki fiyatı Alış kartında gösteriyoruz.
+            for (let i = 0; i < urunListesi.length; i += 2) {
+                let alisObj = urunListesi[i];
+                let satisObj = urunListesi[i+1];
+
+                if (alisObj && satisObj) {
+                    // Alış Kartı (İçine Satış fiyatı yazılıyor)
+                    const kartAlis = `
+                        <div class="gold-card">
+                            <div class="card-image-box"><img src="${alisObj.gorsel}" alt="${alisObj.ad}"></div>
+                            <div class="card-title">${alisObj.ad}</div>
+                            <div class="price-container">
+                                <div class="price-box">
+                                    <span class="price-label">ALIŞ FİYATI</span>
+                                    <span class="price-val buy-val">${satisObj.fiyat.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</span>
+                                </div>
+                            </div>
+                            <div class="card-action">
+                                <a href="https://wa.me/905000000000?text=${encodeURIComponent(alisObj.ad + ' hakkında bilgi almak istiyorum.')}" target="_blank" class="btn-order">BİLGİ & SİPARİŞ</a>
+                            </div>
+                        </div>
+                    `;
+
+                    // Satış Kartı (İçine Alış fiyatı yazılıyor)
+                    const kartSatis = `
+                        <div class="gold-card">
+                            <div class="card-image-box"><img src="${satisObj.gorsel}" alt="${satisObj.ad}"></div>
+                            <div class="card-title">${satisObj.ad}</div>
+                            <div class="price-container">
+                                <div class="price-box">
+                                    <span class="price-label">SATIŞ FİYATI</span>
+                                    <span class="price-val sell-val">${alisObj.fiyat.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</span>
+                                </div>
+                            </div>
+                            <div class="card-action">
+                                <a href="https://wa.me/905000000000?text=${encodeURIComponent(satisObj.ad + ' hakkında bilgi almak istiyorum.')}" target="_blank" class="btn-order">BİLGİ & SİPARİŞ</a>
+                            </div>
+                        </div>
+                    `;
+
+                    vitrin.innerHTML += kartAlis + kartSatis;
+                }
+            }
         }
 
         urunleriYukle();
