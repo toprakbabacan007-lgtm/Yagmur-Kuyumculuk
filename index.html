@@ -184,15 +184,15 @@
 
     <script>
         const ORJINAL_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT26N61HNMzXTIhVOYRbQ28_0Y4JPnPoUTpCe3ZrY3RIrFR2hfkARzgVEv4tGKnrYd_623lYSQ9ycyJ/pub?output=csv";
-        
+
         async function urunleriYukle() {
             const vitrin = document.getElementById("vitrin");
             
-            // Farklı bağlantı yöntemlerini sırayla dener (kesintisiz erişim garantisi)
+            // Güvenlik engelini aşan çoklu servis altyapısı
             const proxyListesi = [
                 "https://api.allorigins.win/raw?url=" + encodeURIComponent(ORJINAL_CSV_URL),
                 "https://corsproxy.io/?" + encodeURIComponent(ORJINAL_CSV_URL),
-                ORJINAL_CSV_URL
+                "https://thingproxy.freeboard.io/fetch/" + ORJINAL_CSV_URL
             ];
 
             let veri = null;
@@ -205,12 +205,12 @@
                         if (veri && veri.length > 20) break;
                     }
                 } catch (e) {
-                    console.log("Köprü denendi, sonraki seçeneğe geçiliyor...");
+                    console.log("Köprü denendi...");
                 }
             }
 
             if (!veri) {
-                vitrin.innerHTML = "<div class='loading-text'>Fiyatlar güncelleniyor, lütfen 10 saniye sonra sayfayı yenileyiniz.</div>";
+                vitrin.innerHTML = "<div class='loading-text'>Fiyatlar güncelleniyor, lütfen sayfayı yenileyiniz.</div>";
                 return;
             }
 
