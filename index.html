@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuyumcu Mağaza Paneli</title>
+    <title>Kuyumcu & Saat Mağaza Paneli</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-primary: #0f172a;
             --bg-secondary: #1e293b;
+            --bg-card: #334155;
             --accent-gold: #f59e0b;
+            --accent-gold-hover: #d97706;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --border-color: #475569;
+            --success: #10b981;
         }
 
         * {
@@ -30,35 +33,206 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                grid-template-columns: 360px 1fr;
+            }
+        }
+
+        /* HEADER */
+        header {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            padding: 20px 24px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .brand-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-title h1 {
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .live-rates {
+            display: flex;
+            gap: 20px;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 10px 18px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .rate-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .rate-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .rate-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        /* SIDEBAR - HIZLI HESAPLAYICI */
+        .sidebar {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
 
-        /* HEADER */
-        header {
-            background: var(--bg-secondary);
-            padding: 18px 24px;
-            border-radius: 12px;
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 20px;
             border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--accent-gold);
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .calculator-form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
             align-items: center;
         }
 
-        .brand h1 {
-            font-size: 1.4rem;
-            color: var(--accent-gold);
-            font-weight: 700;
+        .form-control {
+            width: 100%;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
         }
 
-        /* MAIN CONTENT & FILTERS */
+        .form-control:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+        }
+
+        .input-suffix {
+            position: absolute;
+            right: 12px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            pointer-events: none;
+        }
+
+        .result-box {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(15, 23, 42, 0.4) 100%);
+            border: 1px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 6px;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .result-row:last-child {
+            margin-bottom: 0;
+            padding-top: 8px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .result-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .result-val {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .result-val.highlight {
+            color: var(--accent-gold);
+            font-size: 1.25rem;
+        }
+
+        .payment-badge {
+            display: inline-block;
+            background-color: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .payment-badge.card-badge {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--accent-gold);
+        }
+
+        /* MAIN CATALOG & FILTERS */
         .main-content {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
         }
 
         .filter-bar {
@@ -66,8 +240,8 @@
             flex-wrap: wrap;
             gap: 8px;
             background-color: var(--bg-secondary);
-            padding: 12px;
-            border-radius: 12px;
+            padding: 14px;
+            border-radius: 16px;
             border: 1px solid var(--border-color);
         }
 
@@ -75,17 +249,17 @@
             background-color: var(--bg-primary);
             color: var(--text-muted);
             border: 1px solid var(--border-color);
-            padding: 6px 14px;
-            border-radius: 16px;
+            padding: 8px 16px;
+            border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
         }
 
         .filter-btn:hover {
-            border-color: var(--accent-gold);
             color: var(--text-main);
+            border-color: var(--accent-gold);
         }
 
         .filter-btn.active {
@@ -104,33 +278,50 @@
         .product-card {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 16px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
         }
 
-        .product-category {
+        .product-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-gold);
+        }
+
+        .product-tag {
+            align-self: flex-start;
             font-size: 0.7rem;
+            background-color: var(--bg-primary);
             color: var(--accent-gold);
+            padding: 3px 8px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 8px;
             text-transform: uppercase;
-            font-weight: 600;
-            margin-bottom: 4px;
         }
 
-        .product-title {
+        .product-name {
             font-size: 1rem;
             font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .product-details {
+            font-size: 0.8rem;
+            color: var(--text-muted);
             margin-bottom: 12px;
         }
 
         .product-pricing {
             border-top: 1px solid var(--border-color);
             padding-top: 10px;
+            margin-top: 4px;
         }
 
-        .price-line {
+        .price-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -138,136 +329,279 @@
             margin-bottom: 4px;
         }
 
-        .price-highlight {
+        .price-value {
             font-weight: 700;
             color: #fff;
-            font-size: 1.05rem;
         }
 
-        .installment-highlight {
+        .installment-info {
+            font-size: 0.75rem;
             color: var(--accent-gold);
-            font-size: 0.8rem;
             text-align: right;
+        }
+
+        /* LOCATION CARD */
+        .location-card {
+            background-color: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .location-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .location-info strong {
+            color: var(--text-main);
+        }
+
+        .btn-maps {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
             font-weight: 600;
+            transition: background 0.2s;
+            margin-top: 6px;
+        }
+
+        .btn-maps:hover {
+            background-color: #1d4ed8;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <!-- HEADER -->
     <header>
-        <div class="brand">
-            <h1>💎 MAĞAZA PANELİ</h1>
+        <div class="brand-title">
+            <span>💎</span>
+            <h1>KUYUMCU & SAAT MAĞAZASI</h1>
+        </div>
+        <div class="live-rates">
+            <div class="rate-item">
+                <span class="rate-label">HAS ALTIN / GRAM</span>
+                <span class="rate-value" id="headerGramPrice">2.500,00 TL</span>
+            </div>
         </div>
     </header>
 
-    <div class="main-content">
-        <!-- FİLTRELER -->
-        <div class="filter-bar">
-            <button class="filter-btn active" onclick="filterData('all', this)">Tümü</button>
-            <button class="filter-btn" onclick="filterData('gram', this)">Gram</button>
-            <button class="filter-btn" onclick="filterData('ata', this)">Ata</button>
-            <button class="filter-btn" onclick="filterData('ceyrek', this)">Çeyrek</button>
-            <button class="filter-btn" onclick="filterData('yarim', this)">Yarım</button>
-            <button class="filter-btn" onclick="filterData('tam', this)">Tam</button>
-            <button class="filter-btn" onclick="filterData('kupe', this)">Küpe</button>
-            <button class="filter-btn" onclick="filterData('bileklik', this)">Bileklik</button>
-            <button class="filter-btn" onclick="filterData('yuzuk', this)">Yüzük</button>
-            <button class="filter-btn" onclick="filterData('kolye', this)">Kolye</button>
-            <button class="filter-btn" onclick="filterData('kelepce', this)">Kelepçe</button>
-            <button class="filter-btn" onclick="filterData('alyans', this)">Alyans</button>
-            <button class="filter-btn" onclick="filterData('saat', this)">Saat</button>
+    <!-- SIDEBAR / HIZLI HESAPLAYICI -->
+    <div class="sidebar">
+        <!-- Hızlı Gram Hesabı -->
+        <div class="card">
+            <div class="card-title">
+                ⚡ Hızlı Gram Hesaplayıcı
+            </div>
+            <div class="calculator-form">
+                <div class="form-group">
+                    <label for="gramInput">Müşterinin İstediği Miktar (Gram):</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="gramInput" class="form-control" placeholder="Örn: 10" value="10" step="0.01" min="0">
+                        <span class="input-suffix">gr</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="gramPriceInput">Gram Fiyatı (TL):</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="gramPriceInput" class="form-control" value="2500" step="1" min="0">
+                        <span class="input-suffix">TL</span>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-row">
+                        <span class="result-label">Ödeme Türü:</span>
+                        <span class="payment-badge">Havale / EFT / Nakit</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Toplam Fiyat:</span>
+                        <span class="result-val highlight" id="gramCalcWireResult">25.000,00 TL</span>
+                    </div>
+                </div>
+
+                <div class="result-box" style="border-color: #475569;">
+                    <div class="result-row">
+                        <span class="result-label">Ödeme Türü:</span>
+                        <span class="payment-badge card-badge">Kredi Kartı (3 Taksit)</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Toplam Tutarlar:</span>
+                        <span class="result-val" id="gramCalcCardResult">25.000,00 TL</span>
+                    </div>
+                    <div class="result-row" style="border-top: none; padding-top: 0;">
+                        <span class="result-label">Aylık Taksit:</span>
+                        <span class="installment-info" id="gramCalcMonthly" style="font-size: 0.95rem; font-weight: 600;">3 x 8.333,33 TL</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- ÜRÜN LİSTESİ -->
-        <div class="products-grid" id="productsContainer"></div>
+        <!-- MAĞAZA KONUMU -->
+        <div class="location-card">
+            <div class="card-title" style="margin-bottom: 8px; border-bottom: none; padding-bottom: 0;">
+                📍 Mağaza Konumu
+            </div>
+            <div class="location-info">
+                <p><strong>Adres:</strong> Kuyumcular Çarşısı No: 42, Merkez</p>
+                <p><strong>Çalışma Saatleri:</strong> 09:00 - 19:30 (Pzt-Cmt)</p>
+                <p><strong>Telefon:</strong> +90 (222) 000 00 00</p>
+            </div>
+            <a href="https://maps.google.com" target="_blank" class="btn-maps">
+                🗺️ Haritada Yol Tarifi Al
+            </a>
+        </div>
+    </div>
+
+    <!-- MAIN CATALOG & FILTERS -->
+    <div class="main-content">
+        <!-- Filtre Butonları -->
+        <div class="filter-bar">
+            <button class="filter-btn active" onclick="filterCategory('all', this)">Tümü</button>
+            <button class="filter-btn" onclick="filterCategory('gram', this)">Gram</button>
+            <button class="filter-btn" onclick="filterCategory('ata', this)">Ata</button>
+            <button class="filter-btn" onclick="filterCategory('ceyrek', this)">Çeyrek</button>
+            <button class="filter-btn" onclick="filterCategory('yarim', this)">Yarım</button>
+            <button class="filter-btn" onclick="filterCategory('tam', this)">Tam</button>
+            <button class="filter-btn" onclick="filterCategory('kupe', this)">Küpe</button>
+            <button class="filter-btn" onclick="filterCategory('bileklik', this)">Bileklik</button>
+            <button class="filter-btn" onclick="filterCategory('yuzuk', this)">Yüzük</button>
+            <button class="filter-btn" onclick="filterCategory('kolye', this)">Kolye</button>
+            <button class="filter-btn" onclick="filterCategory('kelepce', this)">Kelepçe</button>
+            <button class="filter-btn" onclick="filterCategory('alyans', this)">Alyans</button>
+            <button class="filter-btn" onclick="filterCategory('saat', this)">Saat</button>
+        </div>
+
+        <!-- Ürün Listesi Grid -->
+        <div class="products-grid" id="productsGrid">
+            <!-- Ürünler Javascript ile yüklenecek -->
+        </div>
     </div>
 </div>
 
 <script>
-    // 1. İKO CANLI VERİLERİ (İndirim marjları düşülür, taksit çıkmaz)
-    const ikoRawPrices = [
-        { title: "24 Ayar Has Gram Altın", category: "gram", rawPrice: 2500, minusMargin: 50, source: "iko" },
-        { title: "Çeyrek Altın", category: "ceyrek", rawPrice: 4100, minusMargin: 60, source: "iko" },
-        { title: "Yarım Altın", category: "yarim", rawPrice: 8200, minusMargin: 80, source: "iko" },
-        { title: "Tam Altın", category: "tam", rawPrice: 16400, minusMargin: 100, source: "iko" },
-        { title: "Ata Lira", category: "ata", rawPrice: 16800, minusMargin: 150, source: "iko" },
-        { title: "22 Ayar Bilezik (Gram)", category: "bileklik", rawPrice: 2350, minusMargin: 150, source: "iko" }
+    // ÖRNEK ÜRÜN VERİLERİ (Gerektiğinde güncelleyebilirsiniz)
+    const products = [
+        { id: 1, name: "24 Ayar 1 Gram Altın", category: "gram", basePrice: 2500, type: "taki", desc: "Ayar: 995.0 Has Altın" },
+        { id: 2, name: "Ata Lira (Tam Ziynet)", category: "ata", basePrice: 16800, type: "taki", desc: "Ayar: 22 Ayar | Ağır: 7.21g" },
+        { id: 3, name: "Yeni Tarihli Çeyrek Altın", category: "ceyrek", basePrice: 4100, type: "taki", desc: "Ayar: 22 Ayar | Ağır: 1.75g" },
+        { id: 4, name: "Yarım Altın", category: "yarim", basePrice: 8200, type: "taki", desc: "Ayar: 22 Ayar | Ağır: 3.50g" },
+        { id: 5, name: "Tam Altın (Ziynet)", category: "tam", basePrice: 16400, type: "taki", desc: "Ayar: 22 Ayar | Ağır: 7.00g" },
+        { id: 6, name: "14 Ayar Taşlı Tektaş Küpe", category: "kupe", basePrice: 5500, type: "taki", desc: "Ağırlık: 2.10 gram" },
+        { id: 7, name: "22 Ayar Dorika Bileklik", category: "bileklik", basePrice: 12800, type: "taki", desc: "Ağırlık: 4.80 gram" },
+        { id: 8, name: "14 Ayar Baget Yüzük", category: "yuzuk", basePrice: 7200, type: "taki", desc: "Ağırlık: 2.85 gram" },
+        { id: 9, name: "14 Ayar Zincir Kolye", category: "kolye", basePrice: 9400, type: "taki", desc: "Ağırlık: 3.60 gram" },
+        { id: 10, name: "22 Ayar Kelepçe Bilezik", category: "kelepce", basePrice: 38500, type: "taki", desc: "Ağırlık: 14.20 gram" },
+        { id: 11, name: "Klasik Çift Alyans (Adet)", category: "alyans", basePrice: 6500, type: "taki", desc: "14 Ayar Erkek / Kadın" },
+        { id: 12, name: "Seiko Otomatik Erkek Saati", category: "saat", basePrice: 14500, type: "saat", desc: "Safir Cam, 100m Su Geçirmez" }
     ];
 
-    // 2. SENİN YÜKLEYECEĞİN TAKI ÜRÜNLERİ (Sadece bunlara 3 taksit yazar)
-    const myJewelryProducts = [
-        { title: "14 Ayar Taşlı Küpe", category: "kupe", price: 6000, source: "manual" },
-        { title: "22 Ayar Dorika Bileklik", category: "bileklik", price: 15000, source: "manual" },
-        { title: "14 Ayar Baget Yüzük", category: "yuzuk", price: 9000, source: "manual" },
-        { title: "14 Ayar Zincir Kolye", category: "kolye", price: 12000, source: "manual" },
-        { title: "22 Ayar Kelepçe", category: "kelepce", price: 45000, source: "manual" },
-        { title: "Klasik Çift Alyans", category: "alyans", price: 7500, source: "manual" },
-        { title: "Erkek Kol Saati", category: "saat", price: 14500, source: "manual" }
-    ];
-
-    function fmt(num) {
-        return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(num);
+    // PARA FORMATLAMA FONKSİYONU
+    function formatTL(val) {
+        return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(val);
     }
 
-    let currentFilter = 'all';
+    // 1. ANLIK GRAM HESAPLAYICI ÇALIŞTIRMA
+    const gramInput = document.getElementById('gramInput');
+    const gramPriceInput = document.getElementById('gramPriceInput');
+    const gramCalcWireResult = document.getElementById('gramCalcWireResult');
+    const gramCalcCardResult = document.getElementById('gramCalcCardResult');
+    const gramCalcMonthly = document.getElementById('gramCalcMonthly');
+    const headerGramPrice = document.getElementById('headerGramPrice');
 
-    function renderList() {
-        const container = document.getElementById('productsContainer');
-        container.innerHTML = '';
+    function calculateGramPrice() {
+        const grams = parseFloat(gramInput.value) || 0;
+        const unitPrice = parseFloat(gramPriceInput.value) || 0;
 
-        const calculatedIkoProducts = ikoRawPrices.map(item => {
-            return {
-                title: item.title,
-                category: item.category,
-                price: Math.max(0, item.rawPrice - item.minusMargin),
-                source: "iko"
-            };
-        });
+        const total = grams * unitPrice;
+        const monthly = total / 3;
 
-        const allItems = [...calculatedIkoProducts, ...myJewelryProducts];
+        // Havale Fiyatı (Birebir Aynı Fiyat)
+        gramCalcWireResult.innerText = formatTL(total);
+        
+        // Kredi Kartı Fiyatı & 3 Taksit
+        gramCalcCardResult.innerText = formatTL(total);
+        gramCalcMonthly.innerText = `3 x ${formatTL(monthly)}`;
 
-        const list = currentFilter === 'all' 
-            ? allItems 
-            : allItems.filter(item => item.category === currentFilter);
+        // Header Güncelleme
+        headerGramPrice.innerText = formatTL(unitPrice);
+    }
 
-        list.forEach(item => {
+    gramInput.addEventListener('input', calculateGramPrice);
+    gramPriceInput.addEventListener('input', calculateGramPrice);
+
+    // 2. ÜRÜNLERİ LİSTELEME VE FİLTRELEME
+    let currentCategory = 'all';
+
+    function renderProducts() {
+        const grid = document.getElementById('productsGrid');
+        grid.innerHTML = '';
+
+        const filtered = currentCategory === 'all' 
+            ? products 
+            : products.filter(p => p.category === currentCategory);
+
+        filtered.forEach(p => {
             const card = document.createElement('div');
             card.className = 'product-card';
 
-            let footerInfo = '';
-            if (item.source === 'manual' && item.category !== 'saat') {
-                const monthly = item.price / 3;
-                footerInfo = `<div class="installment-highlight">💳 Kart 3 Taksit: 3 x ${fmt(monthly)}</div>`;
+            const wirePriceFormatted = formatTL(p.basePrice);
+            
+            let installmentHtml = '';
+            if (p.type === 'taki') {
+                const monthlyPrice = formatTL(p.basePrice / 3);
+                installmentHtml = `<div class="installment-info">💳 Kart: 3 x ${monthlyPrice}</div>`;
             } else {
-                footerInfo = `<div style="font-size:0.75rem; color:var(--text-muted); text-align:right;">Nakit / Havale</div>`;
+                installmentHtml = `<div class="installment-info" style="color: var(--text-muted);">💳 Kart Tek Çekim / Ek Taksit</div>`;
             }
 
             card.innerHTML = `
                 <div>
-                    <div class="product-category">${item.category}</div>
-                    <div class="product-title">${item.title}</div>
+                    <span class="product-tag">${p.category}</span>
+                    <div class="product-name">${p.name}</div>
+                    <div class="product-details">${p.desc}</div>
                 </div>
                 <div class="product-pricing">
-                    <div class="price-line">
-                        <span style="color:var(--text-muted);">Satış Fiyatı:</span>
-                        <span class="price-highlight">${fmt(item.price)}</span>
+                    <div class="price-item">
+                        <span style="color:var(--text-muted); font-size:0.8rem;">Havale / Nakit:</span>
+                        <span class="price-value">${wirePriceFormatted}</span>
                     </div>
-                    ${footerInfo}
+                    ${installmentHtml}
                 </div>
             `;
-            container.appendChild(card);
+            grid.appendChild(card);
         });
     }
 
-    function filterData(cat, btn) {
-        currentFilter = cat;
+    function filterCategory(cat, btn) {
+        currentCategory = cat;
+        
+        // Buton aktiflik sınıflarını ayarla
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        renderList();
+
+        renderProducts();
     }
 
-    renderList();
+    // İLK YÜKLEME
+    calculateGramPrice();
+    renderProducts();
 </script>
 
 </body>
