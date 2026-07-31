@@ -6,12 +6,13 @@
     <title>Yağmur Kuyumculuk - Anlık Fiyat & Özel Vitrin</title>
     <!-- Site İkonu (Favicon) -->
     <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Gold_coin_icon.png/120px-Gold_coin_icon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #242628;
             --card-bg: #2e3134;
             --gold-primary: #d4af37;
+            --gold-light: #f3e5ab;
             --text-light: #f0f0f0;
             --text-muted: #b0b3b8;
             --buy-color: #5ab1ef;
@@ -27,23 +28,59 @@
         }
 
         header {
-            background: linear-gradient(180deg, #1b1c1e 0%, #242628 100%);
+            background: linear-gradient(180deg, #151618 0%, #242628 100%);
             border-bottom: 2px solid var(--gold-primary);
-            padding: 2.5rem 1rem;
+            padding: 2rem 1rem;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
-        header h1 {
+
+        /* Dijitalleştirilmiş Mağaza Logosu */
+        .brand-logo-container {
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            border: 3px solid var(--gold-primary);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.3), inset 0 0 15px rgba(212, 175, 55, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle, #2e3134 0%, #1a1c1e 100%);
+            margin-bottom: 15px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .brand-logo-title {
             font-family: 'Cinzel', serif;
-            font-size: 2.5em;
+            font-size: 1.25em;
+            font-weight: 800;
             color: var(--gold-primary);
+            letter-spacing: 2px;
+            line-height: 1.1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
             margin: 0;
-            letter-spacing: 3px;
         }
-        header p {
-            font-size: 0.9em;
+
+        .brand-logo-sub {
+            font-family: 'Cinzel', serif;
+            font-size: 0.72em;
+            font-weight: 700;
+            color: var(--gold-light);
+            letter-spacing: 1.5px;
+            margin-top: 4px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+
+        header p.slogan {
+            font-size: 0.85em;
             color: var(--text-muted);
-            margin-top: 8px;
+            margin-top: 10px;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
@@ -316,8 +353,12 @@
 <body>
 
     <header>
-        <h1>YAĞMUR KUYUMCULUK</h1>
-        <p>GÜVEN, ZARAFET, ŞIKLIK VE ANLIK SARRAFİYE DEĞERLERİ</p>
+        <!-- Işıklı Tabela Tasarımınızın Dijital Amblemi -->
+        <div class="brand-logo-container">
+            <span class="brand-logo-title">YAĞMUR</span>
+            <span class="brand-logo-sub">KUYUMCULUK</span>
+        </div>
+        <p class="slogan">GÜVEN, ZARAFET, ŞIKLIK VE ANLIK SARRAFİYE DEĞERLERİ</p>
     </header>
 
     <div class="container">
