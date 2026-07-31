@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuyumcu & Saat Mağaza Paneli</title>
+    <title>Kuyumcu Mağaza Paneli</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -13,7 +13,6 @@
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --border-color: #475569;
-            --success: #10b981;
         }
 
         * {
@@ -31,7 +30,7 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -40,9 +39,9 @@
 
         /* HEADER */
         header {
-            background: #1e293b;
-            padding: 20px 24px;
-            border-radius: 14px;
+            background: var(--bg-secondary);
+            padding: 18px 24px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
@@ -50,35 +49,25 @@
         }
 
         .brand h1 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--accent-gold);
             font-weight: 700;
         }
 
-        .iko-badge {
-            font-size: 0.8rem;
-            background-color: rgba(245, 158, 11, 0.15);
-            color: var(--accent-gold);
-            padding: 6px 12px;
-            border-radius: 8px;
-            border: 1px solid var(--accent-gold);
-            font-weight: 600;
-        }
-
-        /* FILTERS & PRODUCTS GRID */
+        /* MAIN CONTENT & FILTERS */
         .main-content {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
         }
 
         .filter-bar {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
             background-color: var(--bg-secondary);
-            padding: 14px;
-            border-radius: 14px;
+            padding: 12px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
         }
 
@@ -86,8 +75,8 @@
             background-color: var(--bg-primary);
             color: var(--text-muted);
             border: 1px solid var(--border-color);
-            padding: 8px 18px;
-            border-radius: 20px;
+            padding: 6px 14px;
+            border-radius: 16px;
             font-size: 0.85rem;
             font-weight: 500;
             cursor: pointer;
@@ -108,28 +97,22 @@
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
         }
 
         .product-card {
             background-color: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 18px;
+            border-radius: 12px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.2s;
-        }
-
-        .product-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--accent-gold);
         }
 
         .product-category {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--accent-gold);
             text-transform: uppercase;
             font-weight: 600;
@@ -137,56 +120,47 @@
         }
 
         .product-title {
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 600;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .product-pricing {
             border-top: 1px solid var(--border-color);
-            padding-top: 12px;
+            padding-top: 10px;
         }
 
         .price-line {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.9rem;
-            margin-bottom: 6px;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
         }
 
         .price-highlight {
             font-weight: 700;
             color: #fff;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
         }
 
         .installment-highlight {
             color: var(--accent-gold);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-align: right;
             font-weight: 600;
-        }
-
-        .margin-tag {
-            font-size: 0.75rem;
-            color: var(--success);
-            text-align: right;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- HEADER -->
     <header>
         <div class="brand">
             <h1>💎 MAĞAZA PANELİ</h1>
         </div>
-        <div class="iko-badge">📡 İKO Canlı Fiyat Entegrasyonu Aktif</div>
     </header>
 
-    <!-- MAIN CONTENT -->
     <div class="main-content">
         <!-- FİLTRELER -->
         <div class="filter-bar">
@@ -206,14 +180,12 @@
         </div>
 
         <!-- ÜRÜN LİSTESİ -->
-        <div class="products-grid" id="productsContainer">
-            <!-- Ürünler buraya yüklenecek -->
-        </div>
+        <div class="products-grid" id="productsContainer"></div>
     </div>
 </div>
 
 <script>
-    // 1. İKO CANLI VERİLERİ (DÜŞÜŞ MARJLARI UYGULANMIŞ)
+    // 1. İKO CANLI VERİLERİ (İndirim marjları düşülür, taksit çıkmaz)
     const ikoRawPrices = [
         { title: "24 Ayar Has Gram Altın", category: "gram", rawPrice: 2500, minusMargin: 50, source: "iko" },
         { title: "Çeyrek Altın", category: "ceyrek", rawPrice: 4100, minusMargin: 60, source: "iko" },
@@ -223,7 +195,7 @@
         { title: "22 Ayar Bilezik (Gram)", category: "bileklik", rawPrice: 2350, minusMargin: 150, source: "iko" }
     ];
 
-    // 2. SENİN ELLE SİSTEME YÜKLEYECEĞİN TAKI ÜRÜNLERİ (Sadece bunlarda 3 Taksit yazar)
+    // 2. SENİN YÜKLEYECEĞİN TAKI ÜRÜNLERİ (Sadece bunlara 3 taksit yazar)
     const myJewelryProducts = [
         { title: "14 Ayar Taşlı Küpe", category: "kupe", price: 6000, source: "manual" },
         { title: "22 Ayar Dorika Bileklik", category: "bileklik", price: 15000, source: "manual" },
@@ -238,21 +210,17 @@
         return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(num);
     }
 
-    // ÜRÜN LİSTELEME MANTIĞI
     let currentFilter = 'all';
 
     function renderList() {
         const container = document.getElementById('productsContainer');
         container.innerHTML = '';
 
-        // İKO ürünlerinin fiyatlarını belirlenen eksi marjlar düşülerek hesaplıyoruz
         const calculatedIkoProducts = ikoRawPrices.map(item => {
-            const finalPrice = Math.max(0, item.rawPrice - item.minusMargin);
             return {
                 title: item.title,
                 category: item.category,
-                price: finalPrice,
-                minusMargin: item.minusMargin,
+                price: Math.max(0, item.rawPrice - item.minusMargin),
                 source: "iko"
             };
         });
@@ -268,16 +236,11 @@
             card.className = 'product-card';
 
             let footerInfo = '';
-            
             if (item.source === 'manual' && item.category !== 'saat') {
-                // Senin elle eklediğin TAKI ürünü -> 3 Taksit yazar
                 const monthly = item.price / 3;
                 footerInfo = `<div class="installment-highlight">💳 Kart 3 Taksit: 3 x ${fmt(monthly)}</div>`;
-            } else if (item.source === 'iko') {
-                // İKO ürünü -> Taksit yok
-                footerInfo = `<div class="margin-tag">📡 İKO Canlı Fiyat</div>`;
             } else {
-                footerInfo = `<div style="font-size:0.8rem; color:var(--text-muted); text-align:right;">Tek Çekim</div>`;
+                footerInfo = `<div style="font-size:0.75rem; color:var(--text-muted); text-align:right;">Nakit / Havale</div>`;
             }
 
             card.innerHTML = `
@@ -304,7 +267,6 @@
         renderList();
     }
 
-    // İlk Çalıştırma
     renderList();
 </script>
 
