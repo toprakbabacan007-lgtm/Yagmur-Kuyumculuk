@@ -184,70 +184,80 @@
 
     <script>
         const ORJINAL_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT26N61HNMzXTIhVOYRbQ28_0Y4JPnPoUTpCe3ZrY3RIrFR2hfkARzgVEv4tGKnrYd_623lYSQ9ycyJ/pub?output=csv";
-        // Herhangi bir güvenlik engeline takılmamak için alternatif güvenli proxy
-        const PROXY_URL = "https://api.allorigins.win/raw?url=" + encodeURIComponent(ORJINAL_CSV_URL);
-
+        
         async function urunleriYukle() {
-            try {
-                const response = await fetch(PROXY_URL);
-                if (!response.ok) throw new Error("Veri okunamadı");
-                
-                const veri = await response.text();
-                const satirlar = veri.split(/\r?\n/).slice(1);
-                const vitrin = document.getElementById("vitrin");
-                vitrin.innerHTML = "";
+            const vitrin = document.getElementById("vitrin");
+            
+            // Farklı bağlantı yöntemlerini sırayla dener (kesintisiz erişim garantisi)
+            const proxyListesi = [
+                "https://api.allorigins.win/raw?url=" + encodeURIComponent(ORJINAL_CSV_URL),
+                "https://corsproxy.io/?" + encodeURIComponent(ORJINAL_CSV_URL),
+                ORJINAL_CSV_URL
+            ];
 
-                let urunSayisi = 0;
+            let veri = null;
 
-                satirlar.forEach(satir => {
-                    const sutunlar = satir.split(",");
-                    if (sutunlar.length >= 2) {
-                        const urunAdi = sutunlar[0] ? sutunlar[0].trim().replace(/^"|"$/g, '') : "";
-                        const ikoFiyati = parseFloat(sutunlar[1] ? sutunlar[1].trim().replace(/^"|"$/g, '') : "0");
-                        const gorselUrl = (sutunlar[2] && sutunlar[2].trim() !== "") 
-                            ? sutunlar[2].trim().replace(/^"|"$/g, '') 
-                            : "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=400&q=80";
+            for (let url of proxyListesi) {
+                try {
+                    let response = await fetch(url);
+                    if (response.ok) {
+                        veri = await response.text();
+                        if (veri && veri.length > 20) break;
+                    }
+                } catch (e) {
+                    console.log("Köprü denendi, sonraki seçeneğe geçiliyor...");
+                }
+            }
 
-                        if (urunAdi !== "" && !isNaN(ikoFiyati) && ikoFiyati > 0) {
-                            urunSayisi++;
-                            let isSatis = urunAdi.toLowerCase().includes("satış") || urunAdi.toLowerCase().includes("satis");
-                            let hesaplananFiyat = isSatis ? (ikoFiyati - 80) : ikoFiyati;
+            if (!veri) {
+                vitrin.innerHTML = "<div class='loading-text'>Fiyatlar güncelleniyor, lütfen 10 saniye sonra sayfayı yenileyiniz.</div>";
+                return;
+            }
 
-                            let valClass = isSatis ? "sell-val" : "buy-val";
-                            let etiketAdi = isSatis ? "SATIŞ FİYATI (-80 ₺)" : "ALIŞ FİYATI";
+            vitrin.innerHTML = "";
+            const satirlar = veri.split(/\r?\n/);
 
-                            const kart = `
-                                <div class="gold-card">
-                                    <div class="card-image-box">
-                                        <img src="${gorselUrl}" alt="${urunAdi}">
-                                    </div>
-                                    <div class="card-title">${urunAdi}</div>
-                                    <div class="price-container">
-                                        <div class="price-box">
-                                            <span class="price-label">${etiketAdi}</span>
-                                            <span class="price-val ${valClass}">${hesaplananFiyat.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-action">
-                                        <a href="https://wa.me/905000000000?text=${encodeURIComponent(urunAdi + ' hakkında bilgi almak istiyorum.')}" target="_blank" class="btn-order">
-                                            BİLGİ & SİPARİŞ
-                                        </a>
+            satirlar.forEach(satir => {
+                const sutunlar = satir.split(",");
+                if (sutunlar.length >= 2) {
+                    const urunAdi = sutunlar[0] ? sutunlar[0].trim().replace(/^"|"$/g, '') : "";
+                    let hamFiyat = sutunlar[1] ? sutunlar[1].trim().replace(/^"|"$/g, '').replace(',', '.') : "0";
+                    const ikoFiyati = parseFloat(hamFiyat);
+
+                    const gorselUrl = (sutunlar[2] && sutunlar[2].trim() !== "") 
+                        ? sutunlar[2].trim().replace(/^"|"$/g, '') 
+                        : "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=400&q=80";
+
+                    if (urunAdi !== "" && !isNaN(ikoFiyati) && ikoFiyati > 0) {
+                        let isSatis = urunAdi.toLowerCase().includes("satış") || urunAdi.toLowerCase().includes("satis");
+                        let hesaplananFiyat = isSatis ? (ikoFiyati - 80) : ikoFiyati;
+
+                        let valClass = isSatis ? "sell-val" : "buy-val";
+                        let etiketAdi = isSatis ? "SATIŞ FİYATI (-80 ₺)" : "ALIŞ FİYATI";
+
+                        const kart = `
+                            <div class="gold-card">
+                                <div class="card-image-box">
+                                    <img src="${gorselUrl}" alt="${urunAdi}">
+                                </div>
+                                <div class="card-title">${urunAdi}</div>
+                                <div class="price-container">
+                                    <div class="price-box">
+                                        <span class="price-label">${etiketAdi}</span>
+                                        <span class="price-val ${valClass}">${hesaplananFiyat.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₺</span>
                                     </div>
                                 </div>
-                            `;
-                            vitrin.innerHTML += kart;
-                        }
+                                <div class="card-action">
+                                    <a href="https://wa.me/905000000000?text=${encodeURIComponent(urunAdi + ' hakkında bilgi almak istiyorum.')}" target="_blank" class="btn-order">
+                                        BİLGİ & SİPARİŞ
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                        vitrin.innerHTML += kart;
                     }
-                });
-
-                if (urunSayisi === 0) {
-                    vitrin.innerHTML = "<div class='loading-text'>Tablonuz henüz güncelleniyor veya boş görünüyor. Lütfen Apps Script kodunu bir kez 'Çalıştır' yapınız.</div>";
                 }
-
-            } catch (hata) {
-                console.error("Hata:", hata);
-                document.getElementById("vitrin").innerHTML = "<div class='loading-text'>Veriler çekilirken bir sorun oluştu. Sayfayı yenileyiniz.</div>";
-            }
+            });
         }
 
         urunleriYukle();
