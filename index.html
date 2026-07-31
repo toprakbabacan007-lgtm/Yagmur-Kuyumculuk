@@ -90,18 +90,20 @@
 
         .card-image-box {
             width: 100%;
-            height: 200px;
+            height: 220px;
             background-color: #1d1f21;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
             border-bottom: 1px solid #3a3d40;
+            padding: 10px;
         }
         .card-image-box img {
-            width: 85%;
-            height: 85%;
+            max-width: 90%;
+            max-height: 90%;
             object-fit: contain;
+            filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.5));
         }
 
         .card-title {
@@ -218,6 +220,7 @@
             height: 28px;
             cursor: pointer;
             font-weight: bold;
+            z-index: 5;
         }
     </style>
 </head>
@@ -225,7 +228,7 @@
 
     <header>
         <h1>YAĞMUR KUYUMCULUK</h1>
-        <p>GÜVEN, ZARAFET VE ANLIK SARRAFİYE DEĞERLERİ</p>
+        <p>GÜVEN, ZARAFET, ŞIKLIK VE ANLIK SARRAFİYE DEĞERLERİ</p>
     </header>
 
     <div class="container">
@@ -272,16 +275,16 @@
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT26N61HNMzXTIhVOYRbQ28_0Y4JPnPoUTpCe3ZrY3RIrFR2hfkARzgVEv4tGKnrYd_623lYSQ9ycyJ/pub?output=csv";
         const TEL_NO = "905428102260";
 
-        // Görsel Grupları
+        // Yüksek Kaliteli Gerçek Sarrafiye Görselleri
         const GORSELLER = {
-            gram: "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=400&q=80",
-            ceyrek: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=400&q=80",
-            yarim: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=400&q=80",
-            tam: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=400&q=80",
-            ata: "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=400&q=80"
+            gram: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Gold_ingot.jpg/600px-Gold_ingot.jpg",
+            ceyrek: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Gold_coin_icon.png/600px-Gold_coin_icon.png",
+            yarim: "https://cdn.pixabay.com/photo/2017/01/08/17/01/gold-1963384_1280.jpg",
+            tam: "https://cdn.pixabay.com/photo/2018/01/18/07/31/gold-3089736_1280.jpg",
+            ata: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Ataturk_gold_coin.png/600px-Ataturk_gold_coin.png"
         };
 
-        // Ürün grubuna göre indirimler
+        // Ürün grubuna göre indirim marjı
         function indirimHesapla(isim, satisFiyat) {
             let ad = isim.toLowerCase();
             if (ad.includes("gram")) return satisFiyat - 50;
@@ -292,14 +295,14 @@
             return satisFiyat;
         }
 
-        // Kategoriye uygun fotoğraf seçimi
+        // Kategoriye Uygun Gerçek Resim Eşleme
         function gorselSec(isim) {
             let ad = isim.toLowerCase();
-            if (ad.includes("çeyrek") || ad.includes("ceyrek")) return GORSELLER.ceyrek;
-            if (ad.includes("yarım") || ad.includes("yarim")) return GORSELLER.yarim;
-            if (ad.includes("tam") || ad.includes("ziynet")) return GORSELLER.tam;
-            if (ad.includes("ata") || ad.includes("cumhuriyet")) return GORSELLER.ata;
-            return GORSELLER.gram;
+            if (ad.includes("çeyrek") || ad.includes("ceyrek")) return "https://raw.githubusercontent.com/toprakbabacan007-lgtm/Yagmur-Kuyumculuk/main/ceyrek.png";
+            if (ad.includes("yarım") || ad.includes("yarim")) return "https://raw.githubusercontent.com/toprakbabacan007-lgtm/Yagmur-Kuyumculuk/main/yarim.png";
+            if (ad.includes("tam") || ad.includes("ziynet")) return "https://raw.githubusercontent.com/toprakbabacan007-lgtm/Yagmur-Kuyumculuk/main/tam.png";
+            if (ad.includes("ata") || ad.includes("cumhuriyet")) return "https://raw.githubusercontent.com/toprakbabacan007-lgtm/Yagmur-Kuyumculuk/main/ata.png";
+            return "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=500&q=80";
         }
 
         async function canliVeriYukle() {
@@ -343,7 +346,6 @@
                 let u2 = urunler[i+1];
 
                 if (u1 && u2) {
-                    // Yüksek olan otomatik SATIŞ, Düşük olan ALIŞ seçilir
                     let satisHam = Math.max(u1.price, u2.price);
                     let alisHam = Math.min(u1.price, u2.price);
 
@@ -353,7 +355,7 @@
 
                     let html = `
                         <div class="gold-card">
-                            <div class="card-image-box"><img src="${imgUrl}" alt="${temelIsim}"></div>
+                            <div class="card-image-box"><img src="${imgUrl}" alt="${temelIsim}" onerror="this.src='https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=500&q=80'"></div>
                             <div class="card-title">${temelIsim}</div>
                             <div class="price-container">
                                 <div class="price-box">
@@ -366,7 +368,7 @@
                                 </div>
                             </div>
                             <div class="card-action">
-                                <a href="https://wa.me/${TEL_NO}?text=${encodeURIComponent(temelIsim + ' almak istiyorum.')}" target="_blank" class="btn-order">BİLGİ & SİPARİŞ</a>
+                                <a href="https://wa.me/${TEL_NO}?text=${encodeURIComponent(temelIsim + ' siparişi hakkında bilgi almak istiyorum.')}" target="_blank" class="btn-order">BİLGİ & SİPARİŞ</a>
                             </div>
                         </div>
                     `;
@@ -387,12 +389,12 @@
                 let html = `
                     <div class="gold-card">
                         <button class="btn-delete" onclick="urunSil(${index})">×</button>
-                        <div class="card-image-box"><img src="${u.img || GORSELLER.gram}" alt="${u.name}"></div>
+                        <div class="card-image-box"><img src="${u.img}" alt="${u.name}"></div>
                         <div class="card-title">${u.name}</div>
                         ${u.gram ? `<div class="card-gram">⚖ ${u.gram}</div>` : ''}
                         <div class="price-container">
                             <div class="price-box">
-                                <span class="price-label">FİYAT</span>
+                                <span class="price-label">SATIŞ FİYATI</span>
                                 <span class="price-val sell-val">${parseFloat(u.price).toLocaleString('tr-TR')} ₺</span>
                             </div>
                         </div>
@@ -422,7 +424,7 @@
                 };
                 reader.readAsDataURL(fileInput.files[0]);
             } else {
-                ozelUrunler.push({ name, gram, price, img: GORSELLER.gram });
+                ozelUrunler.push({ name, gram, price, img: "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=500&q=80" });
                 localStorage.setItem("yagmur_ozel_urunler", JSON.stringify(ozelUrunler));
                 ozelVitrinCiz();
                 urunForm.reset();
