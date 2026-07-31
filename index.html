@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yağmur Kuyumculuk - Anlık Fiyat & Özel Vitrin</title>
+    <!-- Site İkonu (Favicon) -->
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Gold_coin_icon.png/120px-Gold_coin_icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -54,7 +56,7 @@
 
         .section-title {
             font-family: 'Cinzel', serif;
-            font-size: 1.6em;
+            font-size: 1.5em;
             color: var(--gold-primary);
             border-bottom: 1px solid #3c4043;
             padding-bottom: 10px;
@@ -62,6 +64,19 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .update-badge {
+            font-size: 0.6em;
+            font-family: 'Montserrat', sans-serif;
+            color: #2ecc71;
+            font-weight: 600;
+            background-color: #1a2a20;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid #2ecc71;
         }
 
         .gold-grid {
@@ -222,6 +237,80 @@
             font-weight: bold;
             z-index: 5;
         }
+
+        /* Yasal Uyarı Metni */
+        .legal-notice {
+            background-color: #1a1c1e;
+            border: 1px dashed #444;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.78em;
+            color: #888;
+            line-height: 1.5;
+        }
+
+        /* Footer & İletişim */
+        footer {
+            background-color: #17181a;
+            border-top: 1px solid #333;
+            padding: 40px 20px;
+            margin-top: 40px;
+            text-align: center;
+        }
+        .footer-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .btn-social {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: transform 0.2s;
+        }
+        .btn-social:hover {
+            transform: scale(1.05);
+        }
+        .btn-insta {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: #fff;
+        }
+        .btn-maps {
+            background-color: #4285F4;
+            color: #fff;
+        }
+
+        /* Sabit WhatsApp Butonu */
+        .fixed-wa {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: #25d366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.5);
+            z-index: 999;
+            text-decoration: none;
+            font-size: 32px;
+            transition: transform 0.2s;
+        }
+        .fixed-wa:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
@@ -234,13 +323,16 @@
     <div class="container">
         
         <!-- Canlı Borsa & Sarrafiye Vitrini -->
-        <div class="section-title"> CANLI SARRAFİYE VE ALTIN FİYATLARI</div>
+        <div class="section-title">
+            <span>CANLI SARRAFİYE VE ALTIN FİYATLARI</span>
+            <span class="update-badge" id="updateTime">🟢 Son Güncelleme: Yükleniyor...</span>
+        </div>
         <div class="gold-grid" id="canliVitrin">
             <div style="grid-column: 1/-1; text-align:center; padding: 40px; color: #aaa;">Canlı borsa verileri yükleniyor...</div>
         </div>
 
         <!-- Özel Eklenen Ürünler Vitrini -->
-        <div class="section-title"> ÖZEL COLECTION & MAĞAZA ÜRÜNLERİ</div>
+        <div class="section-title">ÖZEL COLECTION & MAĞAZA ÜRÜNLERİ</div>
         <div class="gold-grid" id="ozelVitrin"></div>
 
         <!-- Ürün Ekleme Paneli -->
@@ -269,22 +361,35 @@
             </form>
         </div>
 
+        <!-- Yasal Bilgilendirme Notu -->
+        <div class="legal-notice">
+            📌 <strong>Yasal Bilgilendirme:</strong> Sitemizdeki fiyatlar piyasa koşullarına göre anlık olarak güncellenmektedir. Nihai alım-satım işlemleri mağazamızda fiziki onay ile gerçekleşir. Piyasa dalgalanmalarına göre anlık değişimler gösterebilir.
+        </div>
+
     </div>
+
+    <!-- Sabit WhatsApp İletişim Butonu -->
+    <a href="https://wa.me/905428102260" target="_blank" class="fixed-wa" title="WhatsApp Bilgi Hattı">💬</a>
+
+    <footer>
+        <h3 style="color: var(--gold-primary); margin: 0 0 10px 0; font-family: 'Cinzel', serif;">YAĞMUR KUYUMCULUK</h3>
+        <p style="color: #aaa; font-size: 0.85em; margin-bottom: 20px;">Bizi sosyal medyadan takip edebilir veya mağazamıza doğrudan yol tarifi alabilirsiniz.</p>
+        
+        <div class="footer-buttons">
+            <a href="https://www.instagram.com/yagmur.kuyumculuk/" target="_blank" class="btn-social btn-insta">
+                📸 Instagram'da Takip Et
+            </a>
+            <a href="https://www.google.com/maps?vet=10CAAQoqAOahcKEwjY_IrQyfyVAxUAAAAAHQAAAAAQDw..i&pvq=Cg0vZy8xMWgxMTF5NDFkIhcKEXlhZ211ci5rdXl1bWN1bHVrEAIYAw&lqi=ChF5YWdtdXIua3V5dW1jdWx1a0isoPqQhK-AgAhaGxAAEAEYABgBIhF5YWdtdXIga3V5dW1jdWx1a5IBDWpld2Vscnlfc3RvcmU&fvr=1&cs=1&um=1&ie=UTF-8&fb=1&gl=tr&sa=X&ftid=0x14cac54f64716e8d:0x1026e80b10295cb8" target="_blank" class="btn-social btn-maps">
+                📍 Google Haritalar Konumu
+            </a>
+        </div>
+        <p style="color: #555; font-size: 0.75em; margin-top: 30px;">© Yağmur Kuyumculuk - Tüm hakları saklıdır.</p>
+    </footer>
 
     <script>
         const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT26N61HNMzXTIhVOYRbQ28_0Y4JPnPoUTpCe3ZrY3RIrFR2hfkARzgVEv4tGKnrYd_623lYSQ9ycyJ/pub?output=csv";
         const TEL_NO = "905428102260";
 
-        // Yüksek Kaliteli Gerçek Sarrafiye Görselleri
-        const GORSELLER = {
-            gram: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Gold_ingot.jpg/600px-Gold_ingot.jpg",
-            ceyrek: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Gold_coin_icon.png/600px-Gold_coin_icon.png",
-            yarim: "https://cdn.pixabay.com/photo/2017/01/08/17/01/gold-1963384_1280.jpg",
-            tam: "https://cdn.pixabay.com/photo/2018/01/18/07/31/gold-3089736_1280.jpg",
-            ata: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Ataturk_gold_coin.png/600px-Ataturk_gold_coin.png"
-        };
-
-        // Ürün grubuna göre indirim marjı
         function indirimHesapla(isim, satisFiyat) {
             let ad = isim.toLowerCase();
             if (ad.includes("gram")) return satisFiyat - 50;
@@ -295,7 +400,6 @@
             return satisFiyat;
         }
 
-        // Kategoriye Uygun Gerçek Resim Eşleme
         function gorselSec(isim) {
             let ad = isim.toLowerCase();
             if (ad.includes("çeyrek") || ad.includes("ceyrek")) return "https://raw.githubusercontent.com/toprakbabacan007-lgtm/Yagmur-Kuyumculuk/main/ceyrek.png";
@@ -325,6 +429,10 @@
             }
 
             if (!veri) return;
+
+            // Zaman Damgası
+            let simdi = new Date();
+            document.getElementById("updateTime").innerText = "🟢 Son Güncelleme: " + simdi.toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
 
             vitrin.innerHTML = "";
             let satirlar = veri.split(/\r?\n/);
